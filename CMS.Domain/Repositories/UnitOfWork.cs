@@ -54,5 +54,18 @@ namespace CMS.Domain.Repositories
                 return postTermRepo;
             }
         }
+
+        private IRepository<Comment> CommentRepo;
+        public IRepository<Comment> CommentRepository
+        {
+            get
+            {
+                if (this.CommentRepo == null)
+                {
+                    this.CommentRepo = new Repository<Comment>(_db);
+                }
+                return CommentRepo;
+            }
+        }
     }
 }

@@ -59,5 +59,7 @@ namespace CMS.Domain.Repositories
         {
             dbSet.RemoveRange(entity);
         }
+
+       
     }
 }

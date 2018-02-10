@@ -7,6 +7,7 @@ namespace CMS.Domain.ViewModels
 {
     public class PostViewModel
     {
+
         public int PostID { get; set; }
 
         [Required(AllowEmptyStrings = false)]
@@ -24,5 +25,7 @@ namespace CMS.Domain.ViewModels
         public string Author { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime ModifiedDate { get; set; }
+        public PostViewModel()
+        { }
     }
 }

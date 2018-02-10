@@ -9,6 +9,7 @@ using CMS.Web.Services;
 using CMS.Domain.Repositories;
 using CMS.Core.Interfaces;
 using CMS.Core.Services;
+using CMS.Domain.Models;
 
 namespace CMS.Web
 {
@@ -25,6 +26,8 @@ namespace CMS.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("CMSAuthentication")));
+            services.AddDbContext<CMSContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
