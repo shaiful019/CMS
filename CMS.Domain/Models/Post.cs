@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CMS.Domain.Models
 {
-    public class Post
+    public class Post : BaseEntity
     {
         public int PostID { get; set; }
 
@@ -22,8 +22,6 @@ namespace CMS.Domain.Models
 
         public DateTime CreatedDate { get; set; }
         public string Author { get; set; }
-        public string ModifiedBy { get; set; }
-        public DateTime ModifiedDate { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
         public ICollection<PostTerm> PostTerms { get; set; }

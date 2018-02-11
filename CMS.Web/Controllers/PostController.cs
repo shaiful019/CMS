@@ -6,147 +6,53 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CMS.Domain.Models;
+using CMS.Core.Interfaces;
+using CMS.Domain.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CMS.Web.Controllers
 {
+    //[Authorize]
     public class PostController : Controller
     {
-        private readonly CMSContext _context;
+        private IPostService postService;
 
-        public PostController(CMSContext context)
+        public PostController(IPostService _postService)
         {
-            _context = context;
+            postService = _postService;
         }
 
-        // GET: Post
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Post.ToListAsync());
-        }
-
-        // GET: Post/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var post = await _context.Post
-                .SingleOrDefaultAsync(m => m.PostID == id);
-            if (post == null)
-            {
-                return NotFound();
-            }
-
-            return View(post);
-        }
-
-        // GET: Post/Create
-        public IActionResult Create()
+        public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Post/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostID,Title,Content,FeaturedImageUrl,Url,CreatedDate,Author,ModifiedBy,ModifiedDate")] Post post)
+        public ActionResult Create(PostViewModel postVM)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(post);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            postVM.Author = User.Identity.Name;
+
+            postService.Create(postVM);
+
+            return View();
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var post = postService.GetPostByID(id);
+
             return View(post);
         }
 
-        // GET: Post/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var post = await _context.Post.SingleOrDefaultAsync(m => m.PostID == id);
-            if (post == null)
-            {
-                return NotFound();
-            }
-            return View(post);
-        }
-
-        // POST: Post/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostID,Title,Content,FeaturedImageUrl,Url,CreatedDate,Author,ModifiedBy,ModifiedDate")] Post post)
+        public ActionResult Edit(PostViewModel postVM)
         {
-            if (id != post.PostID)
-            {
-                return NotFound();
-            }
+            postVM.ModifiedBy = User.Identity.Name;
+            postVM.ModifiedDate = DateTime.Now;
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(post);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PostExists(post.PostID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(post);
-        }
+            postService.Update(postVM);
 
-        // GET: Post/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var post = await _context.Post
-                .SingleOrDefaultAsync(m => m.PostID == id);
-            if (post == null)
-            {
-                return NotFound();
-            }
-
-            return View(post);
-        }
-
-        // POST: Post/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var post = await _context.Post.SingleOrDefaultAsync(m => m.PostID == id);
-            _context.Post.Remove(post);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool PostExists(int id)
-        {
-            return _context.Post.Any(e => e.PostID == id);
+            return View();
         }
     }
 }

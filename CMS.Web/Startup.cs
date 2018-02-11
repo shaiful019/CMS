@@ -44,7 +44,7 @@ namespace CMS.Web
             // Register no-op EmailSender used by account confirmation and password reset during development
             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
             services.AddSingleton<IEmailSender, EmailSender>();
-            services.AddSingleton<UnitOfWork>();
+            services.AddTransient<UnitOfWork>();
             services.AddTransient<IPostService, PostService>();
         }
 
