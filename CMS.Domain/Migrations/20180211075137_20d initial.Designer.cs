@@ -11,9 +11,10 @@ using System;
 namespace CMS.Domain.Migrations
 {
     [DbContext(typeof(CMSContext))]
-    partial class CMSContextModelSnapshot : ModelSnapshot
+    [Migration("20180211075137_20d initial")]
+    partial class _20dinitial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,8 +25,6 @@ namespace CMS.Domain.Migrations
                 {
                     b.Property<int>("CommentID")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CommentTime");
 
                     b.Property<string>("Content");
 

@@ -13,5 +13,6 @@ namespace CMS.Domain.ViewModels
         public string Content { get; set; }
         [Required]
         public int PostID { get; set; }
+        public DateTime CommentTime { get; set; }
     }
 }

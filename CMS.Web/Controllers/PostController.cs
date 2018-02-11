@@ -15,11 +15,23 @@ namespace CMS.Web.Controllers
     //[Authorize]
     public class PostController : Controller
     {
-        private IPostService postService;
 
-        public PostController(IPostService _postService)
+
+        private IPostService postService;
+        private ICommentService commentService;
+
+
+
+        public PostController(IPostService _postService, ICommentService _commentService)
         {
             postService = _postService;
+            commentService = _commentService;
+        }
+
+
+        public ActionResult Index()
+        {
+            return View();
         }
 
         public ActionResult Create()
@@ -31,6 +43,7 @@ namespace CMS.Web.Controllers
         public ActionResult Create(PostViewModel postVM)
         {
             postVM.Author = User.Identity.Name;
+            postVM.CreatedDate = DateTime.Now;
 
             postService.Create(postVM);
 
@@ -47,12 +60,24 @@ namespace CMS.Web.Controllers
         [HttpPost]
         public ActionResult Edit(PostViewModel postVM)
         {
-            postVM.ModifiedBy = User.Identity.Name;
-            postVM.ModifiedDate = DateTime.Now;
+            //postVM.ModifiedBy = User.Identity.Name;
+            //postVM.ModifiedDate = DateTime.Now;
 
-            postService.Update(postVM);
+            //postService.Update(postVM);
 
+            return View("Index");
+        }
+        //[HttpPost]
+        public ActionResult Comment(CommentViewModel commentVM)
+        {
+            commentVM.CommentTime = DateTime.Now;
+            commentService.Create(commentVM);
             return View();
+        }
+        public ActionResult GetCommentByPost(int id)
+        {
+            commentService.GetCommentByPost(id);
+            return View("Comment");
         }
     }
 }

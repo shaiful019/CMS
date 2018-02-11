@@ -47,8 +47,6 @@ namespace CMS.Core.Services
             post.Content = postVM.Content;
             post.FeaturedImageUrl = postVM.FeaturedImageUrl;
             post.Url = postVM.Url;
-            post.CreatedDate = postVM.CreatedDate;
-            post.Author = postVM.Author;
             post.ModifiedBy = postVM.ModifiedBy;
             post.ModifiedDate = postVM.ModifiedDate;
 

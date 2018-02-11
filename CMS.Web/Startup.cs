@@ -46,6 +46,7 @@ namespace CMS.Web
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddTransient<UnitOfWork>();
             services.AddTransient<IPostService, PostService>();
+            services.AddTransient<ICommentService, CommentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -28,8 +28,5 @@ namespace CMS.Domain.ViewModels
 
         public List<CommentViewModel> Comments { get; set; }
 
-        public PostViewModel()
-        {
-        }
     }
 }
