@@ -25,7 +25,11 @@ namespace CMS.Domain.ViewModels
         public string Author { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime ModifiedDate { get; set; }
+
+        public List<CommentViewModel> Comments { get; set; }
+
         public PostViewModel()
-        { }
+        {
+        }
     }
 }
