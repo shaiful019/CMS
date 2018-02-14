@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CMS.Web.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class PostController : Controller
     {
 
