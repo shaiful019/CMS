@@ -12,5 +12,11 @@
     @Html.LabelFor(model => model.Content)
     @Html.TextAreaFor(model => model.Content)
 
-    <input type="submit" value="Create" />
+
+    @Html.LabelFor(model => model.Url)
+    @Html.TextAreaFor(model => model.Url)
+
+    <input type="submit" id="showDialog" value="Create" />
+
+
 }

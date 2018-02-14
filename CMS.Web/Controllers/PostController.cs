@@ -10,9 +10,10 @@ using CMS.Core.Interfaces;
 using CMS.Domain.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 
+
 namespace CMS.Web.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class PostController : Controller
     {
 
@@ -46,6 +47,7 @@ namespace CMS.Web.Controllers
             postVM.CreatedDate = DateTime.Now;
 
             postService.Create(postVM);
+            
 
             return View();
         }
