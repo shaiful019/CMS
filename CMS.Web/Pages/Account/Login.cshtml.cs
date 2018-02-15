@@ -37,8 +37,8 @@ namespace CMS.Web.Pages.Account
         {
            
             [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+    
+            public string Name { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
@@ -71,7 +71,7 @@ namespace CMS.Web.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                var result = await _signInManager.PasswordSignInAsync(Input.Name, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");

@@ -40,7 +40,7 @@ namespace CMS.Web.Pages.Account
         {
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Name")]
+            [Display(Name = "User Name")]
             public string Name { get; set; }
 
             [Required]
