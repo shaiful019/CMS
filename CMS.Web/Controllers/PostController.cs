@@ -32,7 +32,8 @@ namespace CMS.Web.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            var item = postService.GetAllPost();
+            return View(item);
         }
 
         public ActionResult Create()
