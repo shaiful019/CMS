@@ -29,17 +29,6 @@ namespace CMS.Core.Services
             return comment;
         }
 
-        public Comment Delete(CommentViewModel commentVM)
-        {
-            var comment = _unitOfWork.CommentRepository.GetById(commentVM.CommentID);
-
-            _unitOfWork.CommentRepository.Delete(comment);
-            _unitOfWork.Save();
-
-            return comment;
-        }
-        
-
         public IEnumerable<CommentViewModel> GetCommentByPost(int postID)
         {
             var data = (from s in _unitOfWork.CommentRepository.Get()
@@ -51,18 +40,6 @@ namespace CMS.Core.Services
                         }).AsEnumerable();
 
             return data;
-        }
-
-        public Comment Update(CommentViewModel commentVM)
-        {
-            var comment = _unitOfWork.CommentRepository.GetById(commentVM.CommentID);
-            comment.CommentID = commentVM.CommentID;
-            comment.Content = commentVM.Content;
-
-            _unitOfWork.CommentRepository.Update(comment);
-            _unitOfWork.Save();
-
-            return comment;
         }
     }
 }

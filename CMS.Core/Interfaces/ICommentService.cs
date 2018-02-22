@@ -9,8 +9,6 @@ namespace CMS.Core.Interfaces
     public interface ICommentService
     {
         Comment Create(CommentViewModel commentVM);
-        Comment Update(CommentViewModel commentVM);
-        Comment Delete(CommentViewModel commentVM);
 
         IEnumerable<CommentViewModel> GetCommentByPost(int postID);
 

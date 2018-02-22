@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<CMS.Domain.ViewModels.PostViewModel>
 
 @{
-        ViewData["Title"] = "Index";
-    }
+    ViewData["Title"] = "Index";
+}
 
 <h2>Index</h2>
 
@@ -11,51 +11,50 @@
 </p>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PostID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Content)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th></th>
-        </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
-{
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PostID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PostID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PostID">Delete</a>
-                <a asp-action="Comment" asp-route-id="@item.PostID">Comment</a>
-            </td>
-        </tr>
+        {
+            <tr>
+                <td>
+
+                    <div class="col-md-12">
+                        <a asp-action="Postview" asp-route-id="@item.PostID">
+                            <font size="4">@Html.DisplayFor(modelItem => item.Title)</font>
+                        </a>
+                        <div class="txt_truncate">
+                            <font size="3">@Html.DisplayFor(modelItem => item.Content)</font>
+                        </div>
+                        <br />
+                        <p>post terms will be shown here.</p>
+                            <br />
+                            <p align="right">created by @Html.DisplayFor(modelItem => item.Author)</p>
+                            <p align="right">created at @Html.DisplayFor(modelItem => item.CreatedDate)</p>
+                            <br />
+</div>
+
+                </td>
+                @*<td>
+                        <a asp-action="Edit" asp-route-id="@item.PostID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.PostID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.PostID">Delete</a>
+                        <a asp-action="Comment" asp-route-id="@item.PostID">Comment</a>
+                    </td>*@
+            </tr>
         }
     </tbody>
 </table>
+@section scripts {
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".txt_truncate").each(function (i) {
+                var len = $(this).text().trim().length;
+                if (len > 200) {
+                    $(this).text($(this).text().substr(0, 200) + '...');
+                }
+            });
+        });
+    </script>
+
+}

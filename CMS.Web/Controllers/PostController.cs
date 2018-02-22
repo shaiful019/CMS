@@ -71,16 +71,18 @@ namespace CMS.Web.Controllers
             return View("Index");
         }
         //[HttpPost]
-        public ActionResult Comment(CommentViewModel commentVM)
+        public ActionResult Comment(Comment postVM)
         {
-            commentVM.CommentTime = DateTime.Now;
-            commentService.Create(commentVM);
+            //postVM.CommentTime = DateTime.Now;
+            //commentService.Create(postVM);
             return View();
         }
-        public ActionResult GetCommentByPost(int id)
+        public ActionResult Postview(int id)
         {
-            commentService.GetCommentByPost(id);
-            return View("Comment");
+            var post = postService.GetPostByID(id);
+
+            return View(post);
+            
         }
     }
 }
