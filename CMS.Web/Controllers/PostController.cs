@@ -63,10 +63,10 @@ namespace CMS.Web.Controllers
         [HttpPost]
         public ActionResult Edit(PostViewModel postVM)
         {
-            //postVM.ModifiedBy = User.Identity.Name;
-            //postVM.ModifiedDate = DateTime.Now;
+            postVM.ModifiedBy = User.Identity.Name;
+            postVM.ModifiedDate = DateTime.Now;
 
-            //postService.Update(postVM);
+            postService.Update(postVM);
 
             return View("Index");
         }
@@ -84,5 +84,14 @@ namespace CMS.Web.Controllers
             return View(post);
             
         }
+        [Authorize]
+        public ActionResult PostByAuthor()
+        {
+            var post = postService.GetPostByAuthor(User.Identity.Name);
+
+            return View(post);
+
+        }
+
     }
 }

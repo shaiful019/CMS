@@ -34,7 +34,17 @@
                     @Html.DisplayFor(modelItem => item.TermID)
                 </td>
                 <td>
+                    @if (item.Type == "1")
+                        {
+                            item.Type = "tag";
+                        }
+                     else
+                        {
+                            item.Type = "Catagory";
+                        }
+
                     @Html.DisplayFor(modelItem => item.Type)
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Content)
