@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Index";
 }
-
 <h2>Index</h2>
 
 <p>
@@ -23,15 +22,15 @@
                             <font size="4">@Html.DisplayFor(modelItem => item.Title)</font>
                         </a>
                         <div class="txt_truncate">
-                            <font size="3">@Html.DisplayFor(modelItem => item.Content)</font>
+                            <font size="3">@Html.Raw(item.Content)</font>
                         </div>
                         <br />
                         <p>post terms will be shown here.</p>
-                            <br />
-                            <p align="right">created by @Html.DisplayFor(modelItem => item.Author)</p>
-                            <p align="right">created at @Html.DisplayFor(modelItem => item.CreatedDate)</p>
-                            <br />
-</div>
+                        <br />
+                        <p align="right">created by @Html.DisplayFor(modelItem => item.Author)</p>
+                        <p align="right">created at @Html.DisplayFor(modelItem => item.CreatedDate)</p>
+                        <br />
+                    </div>
 
                 </td>
                 @*<td>

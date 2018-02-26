@@ -8,6 +8,7 @@ namespace CMS.Domain.ViewModels
     {
         public int TermID { get; set; }
         public string Type { get; set; }
-        public string Content { get; set; }
+        public string Content { get; set;
+        }
     }
 }

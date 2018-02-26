@@ -22,8 +22,5 @@ namespace CMS.Domain.Models
 
         public DateTime CreatedDate { get; set; }
         public string Author { get; set; }
-
-        public ICollection<Comment> Comments { get; set; }
-        public ICollection<PostTerm> PostTerms { get; set; }
     }
 }

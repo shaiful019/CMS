@@ -28,6 +28,7 @@ namespace CMS.Domain.ViewModels
         public DateTime ModifiedDate { get; set; }
 
         public List<CommentViewModel> Comments { get; set; }
-
+        public List<TermViewModel> Categories { get; set; }
+        public List<TermViewModel> Tags { get; set; }
     }
 }
