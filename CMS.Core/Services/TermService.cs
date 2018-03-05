@@ -72,5 +72,31 @@ namespace CMS.Core.Services
 
             return data;
         }
+
+        public IEnumerable<TermViewModel> GetTags()
+        {
+
+            var data = (from s in _unitOfWork.TermRepository.Get()
+                        where s.Type == "1"
+                        select new TermViewModel
+                        {
+                            TermID = s.TermID,
+                            Content = s.Content
+                        }).AsEnumerable();
+
+            return data;
+        }
+        public IEnumerable<TermViewModel> GetCatagory()
+        {
+            var data = (from s in _unitOfWork.TermRepository.Get()
+                        where s.Type == "0"
+                        select new TermViewModel
+                        {
+                            TermID = s.TermID,
+                            Content = s.Content
+                        }).AsEnumerable();
+
+            return data;
+        }
     }
 }

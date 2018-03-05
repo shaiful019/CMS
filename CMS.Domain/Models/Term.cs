@@ -13,6 +13,6 @@ namespace CMS.Domain.Models
         public string Type { get; set; }
         public string Content { get; set; }
 
-        public ICollection<PostTerm> PostTerms { get; set; }
+        //public ICollection<PostTerm> PostTerms { get; set; }
     }
 }

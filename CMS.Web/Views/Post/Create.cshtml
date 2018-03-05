@@ -21,14 +21,9 @@
 
             <div class="form-group">
                 <label asp-for="Categories" class="control-label"></label>
-                <select asp-for="Categories" class="form-control" multiple id="multiple_catagory">
-                    <option>Alabama</option>
-                    <option>Alabama</option>
-                    <option>Wyoming</option>
-                    <option>Alabama</option>
-                    <option>Alabama</option>
-                </select>
-                <span asp-validation-for="Categories" class="text-danger"></span>
+
+            <select asp-for="Categories" asp-items="@(new SelectList(@ViewBag.allcatagories,"TermID","Content"))" class="form-control" multiple id="multiple_tag"></select>
+            <span asp-validation-for="Categories" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -42,13 +37,9 @@
 
             <div class="form-group">
                 <label asp-for="Tags" class="control-label"></label>
-                <select asp-for="Tags" class="form-control" multiple id="multiple_tag">
-                    <option>Alabama</option>
-                    <option>Alabama</option>
-                    <option>Wyoming</option>
-                    <option>Alabama</option>
-                    <option>Alabama</option>
-                </select>
+
+                <select asp-for="Tags" asp-items="@(new SelectList(@ViewBag.alltags,"TermID","Content"))" class="form-control" multiple id="multiple_tag"></select>
+
                 <span asp-validation-for="Tags" class="text-danger"></span>
             </div>
 
@@ -83,13 +74,14 @@
 
             });
         });
+        $(document).ready(function () {
+            $('#multiple_tag').select2();
+        });
 
         $(document).ready(function () {
             $('#multiple_catagory').select2();
         });
-        $(document).ready(function () {
-            $('#multiple_tag').select2();
-        });
+
     </script>
 
 }

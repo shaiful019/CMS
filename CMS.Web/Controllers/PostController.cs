@@ -20,24 +20,36 @@ namespace CMS.Web.Controllers
 
         private IPostService postService;
         private ICommentService commentService;
+        private ITermService termService;
+        
+        public IEnumerable<TermViewModel> Categories = new List<TermViewModel>();
+        public IEnumerable<TermViewModel> Tags = new List<TermViewModel>();
+        
 
-
-
-        public PostController(IPostService _postService, ICommentService _commentService)
+        public PostController(IPostService _postService, ICommentService _commentService, ITermService _termService)
         {
             postService = _postService;
             commentService = _commentService;
+            termService = _termService;
+
         }
 
 
         public ActionResult Index()
         {
+
             var item = postService.GetAllPost();
+            
             return View(item);
         }
 
-        public ActionResult Create()
+        public ActionResult Create(TermViewModel termVM)
         {
+
+            Categories = termService.GetCatagory();
+            ViewBag.allcatagories = Categories;
+            Tags = termService.GetTags();
+            ViewBag.alltags = Tags;
             return View();
         }
 

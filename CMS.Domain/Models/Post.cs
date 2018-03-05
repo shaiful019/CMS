@@ -22,5 +22,6 @@ namespace CMS.Domain.Models
 
         public DateTime CreatedDate { get; set; }
         public string Author { get; set; }
+        //public string Isdeleted { get; set; }
     }
 }
