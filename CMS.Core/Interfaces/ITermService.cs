@@ -12,7 +12,6 @@ namespace CMS.Core.Interfaces
         Term Update(TermViewModel TermVM);
         TermViewModel GetTermByID(int id);
         IEnumerable<TermViewModel> GetAllTerm();
-        IEnumerable<TermViewModel> GetTags();
-        IEnumerable<TermViewModel> GetCatagory();
+        PostTerm Create(IEnumerable<PostTermViewModel> Postterm);
     }
 }

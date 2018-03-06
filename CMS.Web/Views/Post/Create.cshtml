@@ -20,10 +20,20 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Categories" class="control-label"></label>
+                <label  class="control-label">Catagories</label>
 
-            <select asp-for="Categories" asp-items="@(new SelectList(@ViewBag.allcatagories,"TermID","Content"))" class="form-control" multiple id="multiple_catagory"></select>
-            <span asp-validation-for="Categories" class="text-danger"></span>
+                <select asp-for="Postterms" class="form-control" multiple id="multiple_catagory">
+                    @foreach (var item in Model.Postterms)
+                     {
+                        if (item.Type.Equals("0"))
+                         {
+                            <option value="@item.TermID">@item.Content</option>
+                        }
+
+                     }
+
+                </select>
+            <span asp-validation-for="Postterms" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -36,11 +46,19 @@
 
 
             <div class="form-group">
-                <label asp-for="Tags" class="control-label"></label>
+                <label class="control-label">Tags</label>
 
-                <select asp-for="Tags" asp-items="@(new SelectList(@ViewBag.alltags,"TermID","Content"))" class="form-control" multiple id="multiple_tag"></select>
+                @*<select asp-for="Postterms" class="form-control" multiple id="multiple_tag">
+                    @foreach (var item in Model.Postterms)
+                    {
+                        if (item.Type.Equals("1"))
+                        {
+                        <option value="@item.TermID">@item.Content</option>
+                        }
+                    }
+                </select>
 
-                <span asp-validation-for="Tags" class="text-danger"></span>
+                <span asp-validation-for="Postterms" class="text-danger"></span>*@
             </div>
 
             <div class="form-group">

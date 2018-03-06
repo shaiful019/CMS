@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CMS.Domain.Models;
 
 namespace CMS.Domain.Repositories
 {
@@ -12,6 +13,6 @@ namespace CMS.Domain.Repositories
         void Update(TEntity entity);
         void Delete(TEntity entity);
         void DeleteRange(IEnumerable<TEntity> entity);
-
+        
     }
 }

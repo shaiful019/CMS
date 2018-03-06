@@ -22,10 +22,6 @@ namespace CMS.Web.Controllers
         private ICommentService commentService;
         private ITermService termService;
         
-        public IEnumerable<TermViewModel> Categories = new List<TermViewModel>();
-        public IEnumerable<TermViewModel> Tags = new List<TermViewModel>();
-        
-
         public PostController(IPostService _postService, ICommentService _commentService, ITermService _termService)
         {
             postService = _postService;
@@ -46,36 +42,36 @@ namespace CMS.Web.Controllers
         public ActionResult Create()
         {
 
-            Categories = termService.GetCatagory();
-            ViewBag.allcatagories = Categories;
-            Tags = termService.GetTags();
-            ViewBag.alltags = Tags;
-            return View();
+            var item = new PostViewModel
+            {
+                Postterms = termService.GetAllTerm()
+            };
+            return View(item);
         }
 
         [HttpPost]
         public ActionResult Create(PostViewModel postVM)
         {
-            var path = Path.Combine(
-                        Directory.GetCurrentDirectory(), "wwwroot/Imagefiles/",
-                        postVM.Image.FileName);
-
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                postVM.Image.CopyTo(stream);
-            }
-
             postVM.FeaturedImageUrl = "~/Imagefiles/"+ postVM.Image.FileName;
             postVM.Author = User.Identity.Name;
             postVM.CreatedDate = DateTime.Now;
 
+            postService.Uploadimage(postVM.Image);
             postService.Create(postVM);
-            Categories = termService.GetCatagory();
-            ViewBag.allcatagories = Categories;
-            Tags = termService.GetTags();
-            ViewBag.alltags = Tags;
 
-            return View();
+            List<PostTermViewModel> posttermVM = new List<PostTermViewModel>();
+            //foreach (var data in postVM.Postterms)
+            //{
+            //    postVM.TermID
+            //}
+            //posttermVM.AddRange(postVM.Postterms);
+            
+
+            var item = new PostViewModel
+            {
+                Postterms = termService.GetAllTerm()
+            };
+            return View(item);
         }
 
         public ActionResult Edit(int id)
@@ -99,15 +95,19 @@ namespace CMS.Web.Controllers
         public ActionResult Comment(PostViewModel postVM)
         {
             CommentViewModel commentVM = new CommentViewModel();
+
             commentVM.PostID = postVM.PostID;
             commentVM.Content = postVM.Content;
             commentVM.CommentTime = DateTime.Now;
+
             commentService.Create(commentVM);
+
             return View();
         }
         public ActionResult Postview(int id)
         {
             var post = postService.GetPostByID(id);
+            post.Comments = commentService.GetCommentByPost(id);
 
             return View(post);
             

@@ -73,30 +73,17 @@ namespace CMS.Core.Services
             return data;
         }
 
-        public IEnumerable<TermViewModel> GetTags()
+        public PostTerm Create(IEnumerable<PostTermViewModel> PosttermVM)
         {
-
-            var data = (from s in _unitOfWork.TermRepository.Get()
-                        where s.Type == "1"
-                        select new TermViewModel
-                        {
-                            TermID = s.TermID,
-                            Content = s.Content
-                        }).AsEnumerable();
-
-            return data;
-        }
-        public IEnumerable<TermViewModel> GetCatagory()
-        {
-            var data = (from s in _unitOfWork.TermRepository.Get()
-                        where s.Type == "0"
-                        select new TermViewModel
-                        {
-                            TermID = s.TermID,
-                            Content = s.Content
-                        }).AsEnumerable();
-
-            return data;
+            
+            var term = new PostTerm
+            {
+                //PostID = PosttermVM.PostID,
+                //TermID = PosttermVM.TermID
+            };
+            //_unitOfWork.PostTermRepository.InsertRange(PosttermVM);
+            //_unitOfWork.Save();
+            return term;
         }
     }
 }

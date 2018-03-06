@@ -6,6 +6,8 @@ using CMS.Domain.ViewModels;
 using CMS.Core.Interfaces;
 using CMS.Domain.Repositories;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace CMS.Core.Services
 {
@@ -135,6 +137,20 @@ namespace CMS.Core.Services
 
             return data;
         }
+        public void Uploadimage(IFormFile file)
+        {
+            var path = Path.Combine(
+                       Directory.GetCurrentDirectory(), "wwwroot/Imagefiles/",
+                       file.FileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                file.CopyTo(stream);
+            }
+
+            
+        }
+
 
     }
 }

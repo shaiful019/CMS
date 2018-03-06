@@ -7,28 +7,34 @@
 
 
    
-    <div>
-        <h2>@Html.DisplayFor(model => model.Title)</h2>
+<div>
+    <h2>@Html.DisplayFor(model => model.Title)</h2>
 
-        <h5>
-            by @Html.DisplayFor(model => model.Author) at @Html.DisplayFor(model => model.CreatedDate)
-        </h5>
-        <hr />
+    <h5>
+        by @Html.DisplayFor(model => model.Author) at @Html.DisplayFor(model => model.CreatedDate)
+    </h5>
+    <hr />
 
-        <img src="@Url.Content(@Model.FeaturedImageUrl)" id="img" class="img-responsive"onerror="this.onerror=null;this.src='@Url.Content("~/Imagefiles/imgnotfound.png")';"/>
+    <img src="@Url.Content(@Model.FeaturedImageUrl)" id="img" class="img-responsive" onerror="this.onerror=null;this.src='@Url.Content("~/Imagefiles/imgnotfound.png")';" />
 
-        <br />
-        <p align="justify"><font size="3">@Html.Raw(Model.Content)</font></p>
-        <br />
+    <br />
+    <p align="justify"><font size="3">@Html.Raw(Model.Content)</font></p>
+    <br />
 
+    <p>All Comments</p>
+    @foreach (var item in Model.Comments)
+    {
+        <p>@Html.Raw(item.Content)</p>
+        <p>@Html.Raw(item.CommentTime)</p>
+    }
+    <br />
 
-
-    </div>
+</div>
     <div>
         @using (Html.BeginForm("Comment", "Post", FormMethod.Post))
     {
         @Html.HiddenFor(model => model.PostID)
-        <textarea asp-for="Content" id="editor1" class="form-control" placeholder="Write your comment here"></textarea>
+        <textarea name="Content" id="editor1" class="form-control" placeholder="Write your comment here"></textarea>
 
         <div class="form-group">
             <input type="submit" value="Comment" class="btn btn-default" />
