@@ -18,15 +18,18 @@
                 <td>
 
                     <div class="col-md-12">
+                        <img src="@Url.Content(@item.FeaturedImageUrl)" id="img" class="img-thumbnail" style="width:20%"onerror="this.onerror=null;this.src='@Url.Content("~/Imagefiles/imgnotfound.png")';" />
+                        <br/>
                         <a asp-action="Postview" asp-route-id="@item.PostID">
                             <font size="4">@Html.DisplayFor(modelItem => item.Title)</font>
                         </a>
+
                         <div class="txt_truncate">
                             <font size="3">@Html.Raw(item.Content)</font>
                         </div>
                         <br />
                         <p>post terms will be shown here.</p>
-                        <br />
+                        
                         <p align="right">created by @Html.DisplayFor(modelItem => item.Author)</p>
                         <p align="right">created at @Html.DisplayFor(modelItem => item.CreatedDate)</p>
                         <br />
@@ -45,7 +48,7 @@
 </table>
 @section scripts {
 
-    <script type="text/javascript">
+<script type="text/javascript">
         $(document).ready(function () {
             $(".txt_truncate").each(function (i) {
                 var len = $(this).text().trim().length;
@@ -54,6 +57,9 @@
                 }
             });
         });
-    </script>
+      $("#img").on("error", function () {
+            $(this).attr('src', '@Url.Content("~/Imagefiles/imgnotfound.png")');
+        });
+</script>
 
 }

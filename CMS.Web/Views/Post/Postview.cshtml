@@ -5,9 +5,8 @@
     ViewData["Title"] = "View Post";
 }
 
-@using (Html.BeginForm())
-{
-    @Html.HiddenFor(model => model.PostID)
+
+   
     <div>
         <h2>@Html.DisplayFor(model => model.Title)</h2>
 
@@ -16,7 +15,7 @@
         </h5>
         <hr />
 
-        <img src="@Url.Content(@Model.FeaturedImageUrl)" id="img" class="img-responsive"/>
+        <img src="@Url.Content(@Model.FeaturedImageUrl)" id="img" class="img-responsive"onerror="this.onerror=null;this.src='@Url.Content("~/Imagefiles/imgnotfound.png")';"/>
 
         <br />
         <p align="justify"><font size="3">@Html.Raw(Model.Content)</font></p>
@@ -26,17 +25,29 @@
 
     </div>
     <div>
-        <a asp-action="Comment" asp-route-id="@Model.PostID">Comment</a> |
-        <a asp-action="Index">Back to List</a>
+        @using (Html.BeginForm("Comment", "Post", FormMethod.Post))
+    {
+        @Html.HiddenFor(model => model.PostID)
+        <textarea asp-for="Content" id="editor1" class="form-control" placeholder="Write your comment here"></textarea>
+
+        <div class="form-group">
+            <input type="submit" value="Comment" class="btn btn-default" />
+        </div>
+}
     </div>
 
-}
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script type="text/javascript">
         $("#img").on("error", function () {
             $(this).attr('src', '@Url.Content("~/Imagefiles/imgnotfound.png")');
+        });
+        $(document).ready(function () {
+            $('#editor1').summernote({
+
+            });
         });
     </script>
 

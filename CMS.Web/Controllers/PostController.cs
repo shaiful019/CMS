@@ -95,11 +95,14 @@ namespace CMS.Web.Controllers
 
             return View("Index");
         }
-        //[HttpPost]
-        public ActionResult Comment(Comment postVM)
+        [HttpPost]
+        public ActionResult Comment(PostViewModel postVM)
         {
-            //postVM.CommentTime = DateTime.Now;
-            //commentService.Create(postVM);
+            CommentViewModel commentVM = new CommentViewModel();
+            commentVM.PostID = postVM.PostID;
+            commentVM.Content = postVM.Content;
+            commentVM.CommentTime = DateTime.Now;
+            commentService.Create(commentVM);
             return View();
         }
         public ActionResult Postview(int id)
