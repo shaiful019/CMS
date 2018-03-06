@@ -9,7 +9,7 @@ using CMS.Domain.Models;
 using CMS.Core.Interfaces;
 using CMS.Domain.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-
+using System.IO;
 
 namespace CMS.Web.Controllers
 {
@@ -43,7 +43,7 @@ namespace CMS.Web.Controllers
             return View(item);
         }
 
-        public ActionResult Create(TermViewModel termVM)
+        public ActionResult Create()
         {
 
             Categories = termService.GetCatagory();
@@ -56,11 +56,24 @@ namespace CMS.Web.Controllers
         [HttpPost]
         public ActionResult Create(PostViewModel postVM)
         {
+            var path = Path.Combine(
+                        Directory.GetCurrentDirectory(), "wwwroot/Imagefiles/",
+                        postVM.Image.FileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                postVM.Image.CopyTo(stream);
+            }
+
+            postVM.FeaturedImageUrl = "~/Imagefiles/"+ postVM.Image.FileName;
             postVM.Author = User.Identity.Name;
             postVM.CreatedDate = DateTime.Now;
 
             postService.Create(postVM);
-            
+            Categories = termService.GetCatagory();
+            ViewBag.allcatagories = Categories;
+            Tags = termService.GetTags();
+            ViewBag.alltags = Tags;
 
             return View();
         }

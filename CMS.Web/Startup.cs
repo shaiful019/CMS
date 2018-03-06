@@ -10,6 +10,8 @@ using CMS.Domain.Repositories;
 using CMS.Core.Interfaces;
 using CMS.Core.Services;
 using CMS.Domain.Models;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace CMS.Web
 {
@@ -47,7 +49,12 @@ namespace CMS.Web
             services.AddTransient<UnitOfWork>();
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<ICommentService, CommentService>();
+
+            //for uploading image
             services.AddTransient<ITermService, TermService>();
+            services.AddSingleton<IFileProvider>(
+               new PhysicalFileProvider(
+                   Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -18,6 +19,7 @@ namespace CMS.Domain.ViewModels
         public string Content { get; set; }
 
         public string FeaturedImageUrl { get; set; }
+        public IFormFile Image { get; set; }
 
         [Required(AllowEmptyStrings = false)]
         public string Url { get; set; }
