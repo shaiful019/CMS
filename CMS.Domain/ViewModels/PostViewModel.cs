@@ -30,7 +30,7 @@ namespace CMS.Domain.ViewModels
         public DateTime ModifiedDate { get; set; }
 
         public IEnumerable<CommentViewModel> Comments { get; set; }
-        public IEnumerable<TermViewModel> Postterms { get; set; }
-
+        public IEnumerable<TermViewModel> Terms { get; set; }
+        public List<int> Termid  { get; set; }
     }
 }

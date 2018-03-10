@@ -11,9 +11,10 @@ using System;
 namespace CMS.Domain.Migrations
 {
     [DbContext(typeof(CMSContext))]
-    partial class CMSContextModelSnapshot : ModelSnapshot
+    [Migration("20180307121037_test_3_7")]
+    partial class test_3_7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,6 +34,8 @@ namespace CMS.Domain.Migrations
 
                     b.HasKey("CommentID");
 
+                    b.HasIndex("PostID");
+
                     b.ToTable("Comment");
                 });
 
@@ -49,6 +52,8 @@ namespace CMS.Domain.Migrations
                     b.Property<DateTime>("CreatedDate");
 
                     b.Property<string>("FeaturedImageUrl");
+
+                    b.Property<string>("IsDeleted");
 
                     b.Property<string>("ModifiedBy");
 
@@ -67,15 +72,14 @@ namespace CMS.Domain.Migrations
 
             modelBuilder.Entity("CMS.Domain.Models.PostTerm", b =>
                 {
+                    b.Property<int>("PostTermID")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<int>("PostID");
 
                     b.Property<int>("TermID");
 
-                    b.Property<int>("PostTermID");
-
-                    b.HasKey("PostID", "TermID");
-
-                    b.HasIndex("TermID");
+                    b.HasKey("PostTermID");
 
                     b.ToTable("PostTerm");
                 });
@@ -94,16 +98,11 @@ namespace CMS.Domain.Migrations
                     b.ToTable("Term");
                 });
 
-            modelBuilder.Entity("CMS.Domain.Models.PostTerm", b =>
+            modelBuilder.Entity("CMS.Domain.Models.Comment", b =>
                 {
                     b.HasOne("CMS.Domain.Models.Post", "Post")
-                        .WithMany("PostTerms")
+                        .WithMany()
                         .HasForeignKey("PostID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CMS.Domain.Models.Term", "Term")
-                        .WithMany("PostTerms")
-                        .HasForeignKey("TermID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

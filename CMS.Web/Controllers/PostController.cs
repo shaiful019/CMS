@@ -44,7 +44,7 @@ namespace CMS.Web.Controllers
 
             var item = new PostViewModel
             {
-                Postterms = termService.GetAllTerm()
+                Terms = termService.GetAllTerm()
             };
             return View(item);
         }
@@ -52,24 +52,25 @@ namespace CMS.Web.Controllers
         [HttpPost]
         public ActionResult Create(PostViewModel postVM)
         {
-            postVM.FeaturedImageUrl = "~/Imagefiles/"+ postVM.Image.FileName;
+            if (postVM.Image != null || postVM.Image.Length != 0)
+            {
+                postVM.FeaturedImageUrl = "~/Imagefiles/" + postVM.Image.FileName;
+                postService.Uploadimage(postVM.Image);
+            }
+            
             postVM.Author = User.Identity.Name;
             postVM.CreatedDate = DateTime.Now;
-
-            postService.Uploadimage(postVM.Image);
-            postService.Create(postVM);
-
-            List<PostTermViewModel> posttermVM = new List<PostTermViewModel>();
-            //foreach (var data in postVM.Postterms)
-            //{
-            //    postVM.TermID
-            //}
-            //posttermVM.AddRange(postVM.Postterms);
             
-
+            var data = new PostTermViewModel
+            {
+                PostID = postVM.PostID,
+                TermID = postVM.Termid
+            };
+           
+            postService.Create(postVM,data);
             var item = new PostViewModel
             {
-                Postterms = termService.GetAllTerm()
+                Terms = termService.GetAllTerm()
             };
             return View(item);
         }
@@ -94,11 +95,12 @@ namespace CMS.Web.Controllers
         [HttpPost]
         public ActionResult Comment(PostViewModel postVM)
         {
-            CommentViewModel commentVM = new CommentViewModel();
-
-            commentVM.PostID = postVM.PostID;
-            commentVM.Content = postVM.Content;
-            commentVM.CommentTime = DateTime.Now;
+            CommentViewModel commentVM = new CommentViewModel
+            {
+                PostID = postVM.PostID,
+                Content = postVM.Content,
+                CommentTime = DateTime.Now
+            };
 
             commentService.Create(commentVM);
 

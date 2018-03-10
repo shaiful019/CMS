@@ -9,12 +9,13 @@ namespace CMS.Core.Interfaces
 {
     public interface IPostService
     {
-        Post Create(PostViewModel postVM);
+        Post Create(PostViewModel postVM, PostTermViewModel posttermVM);
         Post Update(PostViewModel postVM);
         PostViewModel GetPostByID(int id);
         IEnumerable<PostViewModel> GetPostByAuthor(string author);
         IEnumerable<PostViewModel> GetPostByTerm(int termID);
         IEnumerable<PostViewModel> GetAllPost();
         void Uploadimage(IFormFile file);
+        
     }
 }

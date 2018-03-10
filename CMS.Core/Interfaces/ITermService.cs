@@ -12,6 +12,6 @@ namespace CMS.Core.Interfaces
         Term Update(TermViewModel TermVM);
         TermViewModel GetTermByID(int id);
         IEnumerable<TermViewModel> GetAllTerm();
-        PostTerm Create(IEnumerable<PostTermViewModel> Postterm);
+        
     }
 }

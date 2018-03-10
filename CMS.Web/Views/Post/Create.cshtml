@@ -22,18 +22,18 @@
             <div class="form-group">
                 <label  class="control-label">Catagories</label>
 
-                <select asp-for="Postterms" class="form-control" multiple id="multiple_catagory">
-                    @foreach (var item in Model.Postterms)
-                     {
+                <select asp-for="Termid" class="form-control" multiple id="multiple_catagory">
+                    @foreach (var item in Model.Terms)
+                    {
                         if (item.Type.Equals("0"))
-                         {
+                        {
                             <option value="@item.TermID">@item.Content</option>
                         }
 
                      }
 
                 </select>
-            <span asp-validation-for="Postterms" class="text-danger"></span>
+            <span asp-validation-for="Termid" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -48,17 +48,17 @@
             <div class="form-group">
                 <label class="control-label">Tags</label>
 
-                @*<select asp-for="Postterms" class="form-control" multiple id="multiple_tag">
-                    @foreach (var item in Model.Postterms)
+                <select asp-for="Termid" class="form-control" multiple id="multiple_tag">
+                 @foreach (var item in Model.Terms)
                     {
-                        if (item.Type.Equals("1"))
-                        {
-                        <option value="@item.TermID">@item.Content</option>
-                        }
+                       if (item.Type.Equals("1"))
+                         {
+                            <option value="@item.TermID">@item.Content</option>
+                         }
                     }
-                </select>
+                 </select>
 
-                <span asp-validation-for="Postterms" class="text-danger"></span>*@
+                <span asp-validation-for="Terms" class="text-danger"></span>
             </div>
 
             <div class="form-group">

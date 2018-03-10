@@ -20,7 +20,7 @@ namespace CMS.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Post Create(PostViewModel postVM)
+        public Post Create(PostViewModel postVM, PostTermViewModel posttermVM)
         {
             var post = new Post
             {
@@ -37,6 +37,19 @@ namespace CMS.Core.Services
 
             _unitOfWork.PostRepository.Insert(post);
             _unitOfWork.Save();
+
+
+            foreach (int i in posttermVM.TermID)
+            {
+
+                var term = new PostTerm
+                {
+                    PostID = posttermVM.PostID,
+                    TermID = i
+                };
+                _unitOfWork.PostTermRepository.Insert(term);
+                _unitOfWork.Save();
+            }
 
             return post;
         }

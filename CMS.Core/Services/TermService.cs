@@ -73,17 +73,10 @@ namespace CMS.Core.Services
             return data;
         }
 
-        public PostTerm Create(IEnumerable<PostTermViewModel> PosttermVM)
-        {
-            
-            var term = new PostTerm
-            {
-                //PostID = PosttermVM.PostID,
-                //TermID = PosttermVM.TermID
-            };
-            //_unitOfWork.PostTermRepository.InsertRange(PosttermVM);
-            //_unitOfWork.Save();
-            return term;
-        }
+
+
+
+
+
     }
 }

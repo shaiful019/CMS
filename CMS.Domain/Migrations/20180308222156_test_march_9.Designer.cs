@@ -11,9 +11,10 @@ using System;
 namespace CMS.Domain.Migrations
 {
     [DbContext(typeof(CMSContext))]
-    partial class CMSContextModelSnapshot : ModelSnapshot
+    [Migration("20180308222156_test_march_9")]
+    partial class test_march_9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

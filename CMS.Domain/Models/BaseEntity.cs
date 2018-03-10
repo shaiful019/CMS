@@ -9,5 +9,6 @@ namespace CMS.Domain.Models
         //public bool IsDeleted { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime ModifiedDate { get; set; }
+        
     }
 }

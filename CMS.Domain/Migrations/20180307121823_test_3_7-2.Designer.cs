@@ -11,9 +11,10 @@ using System;
 namespace CMS.Domain.Migrations
 {
     [DbContext(typeof(CMSContext))]
-    partial class CMSContextModelSnapshot : ModelSnapshot
+    [Migration("20180307121823_test_3_7-2")]
+    partial class test_3_72
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,15 +68,14 @@ namespace CMS.Domain.Migrations
 
             modelBuilder.Entity("CMS.Domain.Models.PostTerm", b =>
                 {
+                    b.Property<int>("PostTermID")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<int>("PostID");
 
                     b.Property<int>("TermID");
 
-                    b.Property<int>("PostTermID");
-
-                    b.HasKey("PostID", "TermID");
-
-                    b.HasIndex("TermID");
+                    b.HasKey("PostTermID");
 
                     b.ToTable("PostTerm");
                 });
@@ -92,19 +92,6 @@ namespace CMS.Domain.Migrations
                     b.HasKey("TermID");
 
                     b.ToTable("Term");
-                });
-
-            modelBuilder.Entity("CMS.Domain.Models.PostTerm", b =>
-                {
-                    b.HasOne("CMS.Domain.Models.Post", "Post")
-                        .WithMany("PostTerms")
-                        .HasForeignKey("PostID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CMS.Domain.Models.Term", "Term")
-                        .WithMany("PostTerms")
-                        .HasForeignKey("TermID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

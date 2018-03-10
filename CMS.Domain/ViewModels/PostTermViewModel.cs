@@ -8,6 +8,7 @@ namespace CMS.Domain.ViewModels
     {
         public int PostTermID { get; set; }
         public int PostID { get; set; }
-        public int TermID { get; set; }
+        public List<int> TermID { get; set; }
+        
     }
 }
