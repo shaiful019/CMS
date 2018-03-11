@@ -4,6 +4,7 @@
     ViewData["Title"] = "Create";
 }
 <link href="~/select2/dist/css/select2.css" rel="stylesheet" />
+<link href="~/summernote/summernote.css" rel="stylesheet"/>
 
 <h2>Create</h2>
 
@@ -20,7 +21,7 @@
             </div>
 
             <div class="form-group">
-                <label  class="control-label">Catagories</label>
+                <label class="control-label">Catagories</label>
 
                 <select asp-for="Termid" class="form-control" multiple id="multiple_catagory">
                     @foreach (var item in Model.Terms)
@@ -30,10 +31,10 @@
                             <option value="@item.TermID">@item.Content</option>
                         }
 
-                     }
+                    }
 
                 </select>
-            <span asp-validation-for="Termid" class="text-danger"></span>
+                <span asp-validation-for="Termid" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -49,14 +50,14 @@
                 <label class="control-label">Tags</label>
 
                 <select asp-for="Termid" class="form-control" multiple id="multiple_tag">
-                 @foreach (var item in Model.Terms)
+                    @foreach (var item in Model.Terms)
                     {
-                       if (item.Type.Equals("1"))
-                         {
+                        if (item.Type.Equals("1"))
+                        {
                             <option value="@item.TermID">@item.Content</option>
-                         }
+                        }
                     }
-                 </select>
+                </select>
 
                 <span asp-validation-for="Terms" class="text-danger"></span>
             </div>
@@ -86,6 +87,7 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/select2/dist/js/select2.full.js"></script>
+    <script src="~/summernote/summernote.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#editor1').summernote({
@@ -94,13 +96,13 @@
         });
         $(document).ready(function () {
             $('#multiple_tag').select2({
-                placeholder:"Select Tags"
+                placeholder: "Select Tags"
             });
         });
 
         $(document).ready(function () {
             $('#multiple_catagory').select2({
-                placeholder:"Select Catagories"
+                placeholder: "Select Catagories"
             });
         });
 

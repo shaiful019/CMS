@@ -3,52 +3,56 @@
 @{
     ViewData["Title"] = "Index";
 }
-<h2>Index</h2>
+
+<br />
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<table class="table">
-    <thead>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
 
-                    <div class="col-md-12">
-                        <img src="@Url.Content(@item.FeaturedImageUrl)" id="img" class="img-thumbnail" style="width:20%"onerror="this.onerror=null;this.src='@Url.Content("~/Imagefiles/imgnotfound.png")';" />
-                        <br/>
-                        <a asp-action="Postview" asp-route-id="@item.PostID">
-                            <font size="4">@Html.DisplayFor(modelItem => item.Title)</font>
-                        </a>
+@foreach (var post in Model)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>@post.Title</h3>
+            <b><i>Created By</i></b> @post.Author
+            <b><i>Time</i></b> @post.CreatedDate
+        </div>
+        <div class="panel-body">
+                    <div class="col-sm">
+                        @if (String.IsNullOrEmpty(post.FeaturedImageUrl))
+                         {
+                            <img src="@Url.Content("~/Imagefiles/imgnotfound.png")" class="img-thumbnail" style="width:20%" />
+                         }
+                        else
+                        {
+                            <img src="@Url.Content(@post.FeaturedImageUrl)" class="img-thumbnail" style="width:20%" />
+                        }
+                    </div>
+                    <div class="col-sm">
+                        @{
+                         string x = post.Content;
 
-                        <div class="txt_truncate">
-                            <font size="3">@Html.Raw(item.Content)</font>
-                        </div>
-                        <br />
-                        <p>post terms will be shown here.</p>
-                        
-                        <p align="right">created by @Html.DisplayFor(modelItem => item.Author)</p>
-                        <p align="right">created at @Html.DisplayFor(modelItem => item.CreatedDate)</p>
-                        <br />
+                         if (x != null && x.Length > 300)
+                         {
+                            x = x.Substring(0, 300);
+                         }
+                        }
+
+                        @Html.Raw(x)<b> . . .</b>
+                         <a asp-action="Postview" asp-route-id="@post.PostID"> View more</a>
                     </div>
 
-                </td>
-                @*<td>
-                        <a asp-action="Edit" asp-route-id="@item.PostID">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.PostID">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.PostID">Delete</a>
-                        <a asp-action="Comment" asp-route-id="@item.PostID">Comment</a>
-                    </td>*@
-            </tr>
-        }
-    </tbody>
-</table>
+
+            @*//@Html.Raw(post.Content)*@
+
+        </div>
+    </div>
+}
+
 @section scripts {
 
-<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             $(".txt_truncate").each(function (i) {
                 var len = $(this).text().trim().length;
@@ -57,9 +61,6 @@
                 }
             });
         });
-      $("#img").on("error", function () {
-            $(this).attr('src', '@Url.Content("~/Imagefiles/imgnotfound.png")');
-        });
-</script>
+    </script>
 
 }

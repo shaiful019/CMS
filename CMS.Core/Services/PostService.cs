@@ -35,21 +35,22 @@ namespace CMS.Core.Services
                 ModifiedDate = postVM.ModifiedDate
             };
 
+            //_unitOfWork.PostRepository.Insert(post);
+
+            post.PostTerms = new List<PostTerm>();
+
+
+            foreach (int termID in posttermVM.TermID)
+            {
+                post.PostTerms.Add(new PostTerm
+                {
+                    TermID = termID
+                });
+                //_unitOfWork.PostTermRepository.Insert(term);
+            }
+
             _unitOfWork.PostRepository.Insert(post);
             _unitOfWork.Save();
-
-
-            foreach (int i in posttermVM.TermID)
-            {
-
-                var term = new PostTerm
-                {
-                    PostID = posttermVM.PostID,
-                    TermID = i
-                };
-                _unitOfWork.PostTermRepository.Insert(term);
-                _unitOfWork.Save();
-            }
 
             return post;
         }

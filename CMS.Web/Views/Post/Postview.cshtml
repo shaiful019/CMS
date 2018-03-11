@@ -25,6 +25,7 @@
     @foreach (var item in Model.Comments)
     {
         <p>@Html.Raw(item.Content)</p>
+        @*<p>Commented by @Html.Raw(item.)</p>*@
         <p>@Html.Raw(item.CommentTime)</p>
     }
     <br />
