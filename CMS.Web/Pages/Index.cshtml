@@ -12,26 +12,48 @@
 
 @foreach (var post in Model)
 {
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3>@post.Title</h3>
-            <b><i>Created By</i></b> @post.Author
-            <b><i>Time</i></b> @post.CreatedDate
-        </div>
+    <div class="panel panel-collapse">
         <div class="panel-body">
-            @if (String.IsNullOrEmpty(post.FeaturedImageUrl))
-            {
-                <img src="@Url.Content("~/Imagefiles/imgnotfound.png")" id="img" class="img-thumbnail" style="width:20%" />
+            <div style="width:30%; float:left" ;>
+                @if (String.IsNullOrEmpty(post.FeaturedImageUrl))
+                {
+                    <img src="@Url.Content("~/Imagefiles/imgnotfound.png")" class="img-thumbnail"  />
+                }
+                else
+                {
+                    <img src="@Url.Content(@post.FeaturedImageUrl)" class="img-thumbnail" />
+                }
+            </div>
+            <div style="width:67%; float:right;">
+                <br />
+                <h4> <b>@post.Title </b></h4>
+                <font size="2">
+                    <b><i>Created By</i></b> @post.Author
+                    <b><i>Time</i></b> @post.CreatedDate
+                </font>
+                <br />
+                <br />
+                @{
+                    string x = post.Content;
 
-            }
-            else
-            {
-                <img src="@Url.Content(@post.FeaturedImageUrl)" id="img" class="img-thumbnail" style="width:20%" />
+                    if (x != null && x.Length > 300)
+                    {
+                        x = x.Substring(0, 300);
+                    }
+                }
 
-            }
-            @Html.Raw(post.Content)
-        </div>
-        <div class="panel-footer">
+                @Html.Raw(x)<b> . . .</b>
+                <a asp-action="Postview" asp-route-id="@post.PostID"> View more</a>
+                <br />
+                @foreach (var terms in @post.Terms)
+                {
+                    <a asp-action="Postview" asp-route-id="@terms.TermID"> @terms.Content</a>
+                }
+
+            </div>
+
+
+            @*//@Html.Raw(post.Content)*@
 
         </div>
     </div>
