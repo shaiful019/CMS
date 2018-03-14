@@ -25,7 +25,7 @@
                         }
                     </div>
                     <div style="width:67%; float:right;">
-                        <br />
+                        
                         <h4> <b>@post.Title </b></h4>
                         <font size="2">
                             <b><i>Created By</i></b> @post.Author
@@ -46,9 +46,18 @@
                         <a asp-action="Postview" asp-route-id="@post.PostID"> View more</a>
                         <br />
                         @foreach (var terms in @post.Terms)
+                        {
+                            
+                         if (terms.Type.Equals("0"))
                          {
-                         <a asp-action="Postview" asp-route-id="@terms.TermID"> @terms.Content</a>
+                            <a asp-action="Postview" asp-route-id="@terms.TermID"><span class="label label-primary"> @terms.Content</span></a>
                          }
+                         else
+                         {
+                            <a asp-action="Postview" asp-route-id="@terms.TermID"><span class="label label-success"> @terms.Content</span></a>
+                         }
+
+                        }
 
                     </div>
 
