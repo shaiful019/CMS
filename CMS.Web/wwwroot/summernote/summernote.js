@@ -6479,11 +6479,7 @@ var HelpDialog = /** @class */ (function () {
     HelpDialog.prototype.initialize = function () {
         var $container = this.options.dialogsInBody ? this.$body : this.$editor;
         var body = [
-            '<p class="text-center">',
-            '<a href="http://summernote.org/" target="_blank">Summernote 0.8.9</a> · ',
-            '<a href="https://github.com/summernote/summernote" target="_blank">Project</a> · ',
-            '<a href="https://github.com/summernote/summernote/issues" target="_blank">Issues</a>',
-            '</p>'
+
         ].join('');
         this.$dialog = this.ui.dialog({
             title: this.lang.options.help,

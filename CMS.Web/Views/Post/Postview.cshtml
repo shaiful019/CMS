@@ -53,8 +53,21 @@
         });
         $(document).ready(function () {
             $('#editor1').summernote({
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear', 'strikethrough', 'superscript', 'subscript']],
+                    ['font', ['fontname', 'fontsize', 'color']],
+                    ['para', ['ul', 'ol', 'paragraph', 'style','height']],
+                    ['Link',['picture','link','video','table','hr']],
+                    ['Misc', ['undo', 'redo', 'fullscreen', 'codeview', 'help']]
+
+                ],
+                dialogsInBody: true,
+                dialogsFade: true,
+                //fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New'],
 
             });
+            $('.dropdown-toggle').dropdown();
         });
     </script>
 

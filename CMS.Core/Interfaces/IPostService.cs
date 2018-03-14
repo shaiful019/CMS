@@ -15,6 +15,7 @@ namespace CMS.Core.Interfaces
         IEnumerable<PostViewModel> GetPostByAuthor(string author);
         IEnumerable<PostViewModel> GetPostByTerm(int termID);
         IEnumerable<PostViewModel> GetAllPost();
+        IEnumerable<TermViewModel> GetTermByPost(int postID);
         void Uploadimage(IFormFile file);
         
     }
