@@ -67,13 +67,16 @@ namespace CMS.Domain.Migrations
 
             modelBuilder.Entity("CMS.Domain.Models.PostTerm", b =>
                 {
+                    b.Property<int>("PostTermID")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<int>("PostID");
 
                     b.Property<int>("TermID");
 
-                    b.Property<int>("PostTermID");
+                    b.HasKey("PostTermID");
 
-                    b.HasKey("PostID", "TermID");
+                    b.HasIndex("PostID");
 
                     b.HasIndex("TermID");
 

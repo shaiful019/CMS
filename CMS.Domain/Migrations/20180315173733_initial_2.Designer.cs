@@ -11,8 +11,8 @@ using System;
 namespace CMS.Domain.Migrations
 {
     [DbContext(typeof(CMSContext))]
-    [Migration("20180211101004_initial 45")]
-    partial class initial45
+    [Migration("20180315173733_initial_2")]
+    partial class initial_2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,8 +34,6 @@ namespace CMS.Domain.Migrations
 
                     b.HasKey("CommentID");
 
-                    b.HasIndex("PostID");
-
                     b.ToTable("Comment");
                 });
 
@@ -52,8 +50,6 @@ namespace CMS.Domain.Migrations
                     b.Property<DateTime>("CreatedDate");
 
                     b.Property<string>("FeaturedImageUrl");
-
-                    b.Property<bool>("IsDeleted");
 
                     b.Property<string>("ModifiedBy");
 
@@ -100,14 +96,6 @@ namespace CMS.Domain.Migrations
                     b.HasKey("TermID");
 
                     b.ToTable("Term");
-                });
-
-            modelBuilder.Entity("CMS.Domain.Models.Comment", b =>
-                {
-                    b.HasOne("CMS.Domain.Models.Post", "Post")
-                        .WithMany("Comments")
-                        .HasForeignKey("PostID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CMS.Domain.Models.PostTerm", b =>
