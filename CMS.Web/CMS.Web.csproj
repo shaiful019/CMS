@@ -23,4 +23,7 @@
     <ProjectReference Include="..\CMS.Core\CMS.Core.csproj" />
     <ProjectReference Include="..\CMS.Domain\CMS.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\Videofiles\" />
+  </ItemGroup>
 </Project>

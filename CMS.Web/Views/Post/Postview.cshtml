@@ -5,49 +5,182 @@
     ViewData["Title"] = "View Post";
 }
 
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-   
-<div>
-    <h2>@Html.DisplayFor(model => model.Title)</h2>
+    <link href="~/css/multicarous.css" rel="stylesheet" />
+    <style>
 
-    <h5>
-        by @Html.DisplayFor(model => model.Author) at @Html.DisplayFor(model => model.CreatedDate)
-    </h5>
-    <hr />
+        body {
+            font-family: "Lato", sans-serif;
+            transition: background-color .5s;
+        }
 
-    <img src="@Url.Content(@Model.FeaturedImageUrl)" id="img" class="img-responsive" onerror="this.onerror=null;this.src='@Url.Content("~/Imagefiles/imgnotfound.png")';" />
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
 
-    <br />
-    <p align="justify"><font size="3">@Html.Raw(Model.Content)</font></p>
-    <br />
+            .sidenav a {
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 25px;
+                color: #818181;
+                display: block;
+                transition: 0.3s;
+            }
 
-    <p>All Comments</p>
-    @foreach (var item in Model.Comments)
-    {
-        <p>@Html.Raw(item.Content)</p>
-        @*<p>Commented by @Html.Raw(item.)</p>*@
-        <p>@Html.Raw(item.CommentTime)</p>
-    }
-    <br />
+                .sidenav a:hover {
+                    color: #f1f1f1;
+                }
 
-</div>
+            .sidenav .closebtn {
+                float: right;
+                margin-bottom: 100px;
+            }
+
+        #main {
+            transition: margin-left .5s;
+            padding: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>@Html.DisplayFor(model => model.Title)</h2>
+
+        <h5>
+            by @Html.DisplayFor(model => model.Author) at @Html.DisplayFor(model => model.CreatedDate)
+        </h5>
+        <hr />
+        @if (String.IsNullOrEmpty(@Model.Url))
+        {
+            <img src="@Url.Content(@Model.FeaturedImageUrl)" id="img" class="img-responsive" onerror="this.onerror=null;this.src='@Url.Content("~/Imagefiles/imgnotfound.png")';" />
+        }
+        else if (String.IsNullOrEmpty(@Model.FeaturedImageUrl))
+        {
+            @Html.Raw("<iframe width=" + '"' + "1118" + '"' + " height=" + '"' + "628" + '"' + " src =" + '"' + "https://www.youtube.com/embed/" + Model.Url + '"' + " frameborder=" + '"' + "0" + '"' + " allow=" + '"' + "autoplay; encrypted-media" + '"' + " allowfullscreen ></iframe>");
+
+
+        }
+
+        <br />
+        <p align="justify"><font size="3">@Html.Raw(Model.Content)</font></p>
+        <br />
+
+        <p>All Comments (@Model.Comments.Count()) </p>
+        @foreach (var item in Model.Comments)
+        {
+            <p>@Html.Raw(item.Content)</p>
+            <p>Commented by @Html.Raw(item.CommentedBy)</p>
+            <p>@Html.Raw(item.CommentTime)</p>
+        }
+        <br />
+
+    </div>
     <div>
         @using (Html.BeginForm("Comment", "Post", FormMethod.Post))
-    {
-        @Html.HiddenFor(model => model.PostID)
-        <textarea name="Content" id="editor1" class="form-control" placeholder="Write your comment here"></textarea>
+        {
+            @Html.HiddenFor(model => model.PostID)
 
-        <div class="form-group">
-            <input type="submit" value="Comment" class="btn btn-default" />
-        </div>
-}
+            <div class="form-group">
+                @if (String.IsNullOrEmpty(User.Identity.Name))
+                {
+
+                    <div class="input-group">
+                        <input type="text" name="Commentedby" placeholder="Click to select role" id="commentedby" class="form-control" aria-label="...">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Click to Comment <span class="caret"></span></button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="javascript:void(0)" id="with_ano" onclick="with_anonymous()">Comment as Anonymous</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="javascript:void(0)" onclick="with_email()">Comment with email</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a asp-page="/Account/Login">Comment as a User</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    Model.CommentIsApproved = 0;
+                    <br />
+                    <br />
+                    <br />
+                }
+                else if (User.Identity.Name.Equals(Model.Author))
+                {
+                    Model.Commentedby = User.Identity.Name;
+                    Model.CommentIsApproved = 1;
+                }
+                else
+                {
+                    Model.Commentedby = User.Identity.Name;
+                    Model.CommentIsApproved = 0;
+                }
+
+                <textarea name="Content" id="editor1" class="form-control" placeholder="Write your comment here"></textarea>
+
+                <input type="submit" value="Comment" class="btn btn-default" />
+            </div>
+        }
     </div>
+    <div class="container">
+        <h1>Use Bootstrap's carousel to show multiple items per slide.</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="carousel slide multi-item-carousel" id="theCarousel">
+                    <div class="carousel-inner">
 
+
+                    <div class="item active">
+                        <div class="col-xs-4"><a href="#1"><img src="@Model.FeaturedImageUrl.IndexOf('0')" class="img-responsive"></a></div>
+                    </div>
+                    <div class="item">
+                        <div class="col-xs-4"><a href="#1"><img src="@Model.FeaturedImageUrl.IndexOf('1')" class="img-responsive"></a></div>
+                    </div>
+                    <div class="item">
+                        <div class="col-xs-4"><a href="#1"><img src="@Model.FeaturedImageUrl.IndexOf('9')" class="img-responsive"></a></div>
+                    </div>
+                    <div class="item">
+                        <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/673ab7/000000" class="img-responsive"></a></div>
+                    </div>
+                    <div class="item">
+                        <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/4caf50/000000" class="img-responsive"></a></div>
+                    </div>
+                    <div class="item">
+                        <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/8bc34a/000000" class="img-responsive"></a></div>
+                    </div>
+                    <div class="item">
+                        <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/8bc34a/000000" class="img-responsive"></a></div>
+                    </div>
+
+                        
+                       
+
+                    </div>
+                    <a class="left carousel-control" href="#theCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                    <a class="right carousel-control" href="#theCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
+    <script type="text/javascript" src="~/js/multicarous.js"></script>
     <script type="text/javascript">
+
         $("#img").on("error", function () {
             $(this).attr('src', '@Url.Content("~/Imagefiles/imgnotfound.png")');
         });
@@ -64,47 +197,25 @@
                 ],
                 dialogsInBody: true,
                 dialogsFade: true,
-                //fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New'],
-
-            });
+                });
             $('.dropdown-toggle').dropdown();
         });
+
+
+        document.getElementById("with_ano").addEventListener('click', with_anonymous());
+        function with_anonymous() {
+            $('#commentedby').val("Anonymous");
+            $('#commentedby').attr("readonly", true);
+
+        }
+        function with_email() {
+            $('#commentedby').removeAttr("readonly");
+            $('#commentedby').val("");
+            $('#commentedby').attr("Placeholder","Enter Your email address");
+
+        }
+
     </script>
 
-   
 }
 
-@*<div>
-        <h4>ShaifulShadman</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.other)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.other)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.other2)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.other2)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.other3)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.other3)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.other4)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.other4)
-            </dd>
-        </dl>
-    </div>
-    <div>
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-        <a asp-action="Index">Back to List</a>
-    </div>*@

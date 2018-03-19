@@ -1,0 +1,178 @@
+﻿@model IEnumerable<CMS.Domain.ViewModels.PostViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+    font-family: "Lato", sans-serif;
+    transition: background-color .5s;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    float:right;
+    margin-bottom: 100px;
+}
+
+#main {
+    transition: margin-left .5s;
+    padding: 16px;
+}
+
+</style>
+</head>
+<body>
+
+    <div id="mySidenav" class="sidenav">
+
+
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+
+        <br />
+        <br />
+        <br />
+
+
+        <a asp-controller="Post" asp-action="Dashboard" class="btn btn-info btn-lg" style="font-size: 18px; ">All Posts</a>
+        <br />
+        <a asp-controller="Post" asp-action="Create" class="btn btn-info btn-lg" style="font-size: 18px;">Create New Post</a>
+        <br />
+        <a href="#" class="btn btn-info btn-lg" style="font-size: 18px;">All Comments</a>
+        <br />
+
+        <a href="/Account/Manage/ChangePassword" class="btn btn-info btn-lg" style="font-size: 18px;">Change Password</a>
+        <br />
+        <a href="/Account/Manage/Index" class="btn btn-info btn-lg " style="font-size: 18px;">Manage Profile</a>
+        <br />
+        <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+            <a class="btn btn-info btn-lg" onclick="document.getElementById('logoutForm').submit()" style="font-size: 18px;">Log out </a>
+        </form>
+    </div>
+    <br/>
+    <span style="font-size:30px;cursor:pointer;float:left;" class="glyphicon glyphicon-th-list" onclick="openNav()"></span>
+    <div id="main">
+
+            <div class="panel ">
+            @foreach (var post in Model)
+            {
+
+              <div class="panel-body">
+                    <div style="width:30%; float:left" ;>
+            @if (String.IsNullOrEmpty(post.Url))
+            {
+                <img src="@Url.Content(@post.FeaturedImageUrl)" class="img-thumbnail" />
+
+            }
+            else if (String.IsNullOrEmpty(post.FeaturedImageUrl))
+            {
+                string d = "http://img.youtube.com/vi/" + @post.Url + "/maxresdefault.jpg";
+                <img id="img" class="img-thumbnail" src="@d" />
+            }
+            else if (String.IsNullOrEmpty(post.Url) && String.IsNullOrEmpty(post.FeaturedImageUrl))
+            {
+                    <img src="@Url.Content("~/Imagefiles/imgnotfound.png")" class="img-thumbnail" />
+            }
+            </div>
+            <div style="width:67%; float:right;">
+
+                <h4> <b>@post.Title </b></h4>
+                <font size="2">
+                    <b><i>Created By</i></b> @post.Author
+                    <b><i>Time</i></b> @post.CreatedDate
+                </font>
+                
+                
+                @{
+            string x = post.Content;
+
+            if (x != null && x.Length > 300)
+            {
+                x = x.Substring(0, 300);
+            }
+                }
+
+                @Html.Raw(x)<b> . . .</b>
+                <a asp-action="Postview" asp-route-id="@post.PostID"> View more</a>
+                <br />
+
+                
+                @foreach (var terms in @post.Terms)
+            {
+
+                if (terms.Type.Equals("0"))
+                {
+                    <a asp-action="Postview" asp-route-id="@terms.TermID"><span class="label label-primary"> @terms.Content</span></a>
+                }
+                else
+                {
+                    <a asp-action="Postview" asp-route-id="@terms.TermID"><span class="label label-success"> @terms.Content</span></a>
+                }
+
+            }
+
+            </div>
+        </div>
+        }
+        </div>
+        </div>
+</body>
+</html>
+
+
+@section scripts {
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $(".txt_truncate").each(function (i) {
+                var len = $(this).text().trim().length;
+                if (len > 200) {
+                    $(this).text($(this).text().substr(0, 200) + '...');
+                }
+            });
+        });
+
+
+        function openNav() {
+                document.getElementById("mySidenav").style.width = "240px";
+        }
+
+        function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+        }
+
+        
+</script>
+
+}

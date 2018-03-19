@@ -1,23 +1,114 @@
-﻿@{ 
+﻿@{
     Layout = "/Pages/_Layout.cshtml";
 }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: "Lato", sans-serif;
 
-<h2>Manage your account</h2>
+            transition: background-color .5s;
+        }
 
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            @await Html.PartialAsync("_ManageNav")
-        </div>
-        <div class="col-md-9">
-            @RenderBody()
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+            .sidenav a {
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 15px;
+                color: #818181;
+                display: block;
+                transition: 0.3s;
+            }
+
+                .sidenav a:hover {
+                    color: #f1f1f1;
+                }
+
+           
+
+        #main {
+            transition: margin-left .5s;
+            padding: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="mySidenav" class="sidenav">
+
+
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+
+        <br />
+        <br />
+        <br />
+
+
+        <a href="#" class="btn btn-info btn-lg" style="font-size: 18px; ">All Posts</a>
+        <br />
+        <a asp-controller="Post" asp-action="Create" class="btn btn-info btn-lg" style="font-size: 18px;">Create New Post</a>
+        <br />
+        <a href="#" class="btn btn-info btn-lg" style="font-size: 18px;">All Comments</a>
+        <br />
+
+        <a href="/Account/Manage/ChangePassword" class="btn btn-info btn-lg" style="font-size: 18px;">Change Password</a>
+        <br />
+        <a href="/Account/Manage/Index" class="btn btn-info btn-lg " style="font-size: 18px;">Manage Profile</a>
+        <br />
+        <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+            <a class="btn btn-info btn-lg" onclick="document.getElementById('logoutForm').submit()" style="font-size: 18px;">Log out </a>
+        </form>
+    </div>
+    <div>
+        <hr />
+        <div class="row">
+            <div class="col-md-9">
+                <div id="main">
+                    <span style="font-size:30px;cursor:pointer" onclick="Nav()">&#9776;Account Settings</span>
+                    @RenderBody()
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
+</body>
+</html>
 @section Scripts {
     @RenderSection("Scripts", required: false)
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".txt_truncate").each(function (i) {
+                var len = $(this).text().trim().length;
+                if (len > 200) {
+                    $(this).text($(this).text().substr(0, 200) + '...');
+                }
+            });
+        });
+
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "240px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+
+
+
+    </script>
 }
-        
+

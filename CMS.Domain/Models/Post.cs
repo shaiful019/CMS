@@ -17,12 +17,11 @@ namespace CMS.Domain.Models
         public string Content { get; set; }
 
         public string FeaturedImageUrl { get; set; }
-
-        [Required(AllowEmptyStrings = true)]
         public string Url { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public string Author { get; set; }
+        public int IsDeleted { get; set; }
 
         public ICollection<PostTerm> PostTerms { get; set; }
 

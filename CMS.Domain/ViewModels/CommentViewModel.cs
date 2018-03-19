@@ -14,5 +14,7 @@ namespace CMS.Domain.ViewModels
         [Required]
         public int PostID { get; set; }
         public DateTime CommentTime { get; set; }
+        public string CommentedBy { get; set; }
+        public int IsApproved { get; set; }
     }
 }

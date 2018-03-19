@@ -11,9 +11,10 @@ using System;
 namespace CMS.Domain.Migrations
 {
     [DbContext(typeof(CMSContext))]
-    partial class CMSContextModelSnapshot : ModelSnapshot
+    [Migration("20180317184627_initial_3")]
+    partial class initial_3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,8 +31,6 @@ namespace CMS.Domain.Migrations
                     b.Property<string>("CommentedBy");
 
                     b.Property<string>("Content");
-
-                    b.Property<int>("IsApproved");
 
                     b.Property<int>("PostID");
 

@@ -22,7 +22,11 @@ namespace CMS.Core.Services
             {
                 CommentID = commentVM.CommentID,
                 Content = commentVM.Content,
-                PostID = commentVM.PostID
+                PostID = commentVM.PostID,
+                CommentedBy=commentVM.CommentedBy,
+                CommentTime=DateTime.Now,
+                IsApproved=commentVM.IsApproved
+
             };
             _unitOfWork.CommentRepository.Insert(comment);
             _unitOfWork.Save();
@@ -32,11 +36,14 @@ namespace CMS.Core.Services
         public IEnumerable<CommentViewModel> GetCommentByPost(int postID)
         {
             var data = (from s in _unitOfWork.CommentRepository.Get()
+                        where s.PostID == postID 
                         select new CommentViewModel
                         {
                             CommentID = s.CommentID,
                             Content = s.Content,
-                            PostID = s.PostID
+                            PostID = s.PostID,
+                            CommentedBy = s.CommentedBy,
+                            CommentTime = s.CommentTime
                         }).AsEnumerable();
 
             return data;

@@ -6,24 +6,28 @@
 
 <br />
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
-</p>
 
-@foreach (var post in Model)
-{
-    <div class="panel panel-collapse">
-        <div class="panel-body">
-                    <div style="width:30%; float:left";>
-                        @if (String.IsNullOrEmpty(post.FeaturedImageUrl))
-                         {
-                            <img src="@Url.Content("~/Imagefiles/imgnotfound.png")" class="img-thumbnail"  />
-                         }
-                        else
-                        {
-                            <img src="@Url.Content(@post.FeaturedImageUrl)" class="img-thumbnail"  />
-                        }
-                    </div>
+            @foreach (var post in Model)
+            {
+                <div class="panel panel-collapse">
+                    <div class="panel-body">
+                        <div style="width:30%; float:left" ;>
+                            @if (String.IsNullOrEmpty(post.FeaturedImageUrl) && String.IsNullOrEmpty(post.Url))
+                             {
+                                   <img src="@Url.Content("~/Imagefiles/imgnotfound.png")" class="img-thumbnail" />
+                            }
+                            else if (String.IsNullOrEmpty(post.FeaturedImageUrl))
+                            {
+
+                                string s = "http://img.youtube.com/vi/" + @post.Url + "/maxresdefault.jpg";
+                                <img src="@s" class="img-thumbnail" />
+
+                            }
+                            else if (String.IsNullOrEmpty(post.Url))
+                            {
+                                <img src="@Url.Content(@post.FeaturedImageUrl)" class="img-thumbnail" />
+                            }
+                </div>
                     <div style="width:67%; float:right;">
                         
                         <h4> <b>@post.Title </b></h4>

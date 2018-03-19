@@ -32,7 +32,8 @@ namespace CMS.Core.Services
                 CreatedDate = postVM.CreatedDate,
                 Author = postVM.Author,
                 ModifiedBy = postVM.ModifiedBy,
-                ModifiedDate = postVM.ModifiedDate
+                ModifiedDate = postVM.ModifiedDate,
+                IsDeleted =0
             };
 
             //_unitOfWork.PostRepository.Insert(post);
@@ -106,7 +107,8 @@ namespace CMS.Core.Services
                             CreatedDate = s.CreatedDate,
                             Author = s.Author,
                             ModifiedBy = s.ModifiedBy,
-                            ModifiedDate = s.ModifiedDate
+                            ModifiedDate = s.ModifiedDate,
+                            Terms = GetTermByPost(s.PostID)
                         }).AsEnumerable();
 
             return data;
@@ -169,7 +171,7 @@ namespace CMS.Core.Services
 
             return data;
         }
-        public void Uploadimage(IFormFile file)
+        public void Upload(IFormFile file)
         {
             var path = Path.Combine(
                        Directory.GetCurrentDirectory(), "wwwroot/Imagefiles/",

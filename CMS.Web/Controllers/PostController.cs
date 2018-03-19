@@ -52,10 +52,10 @@ namespace CMS.Web.Controllers
         [HttpPost]
         public ActionResult Create(PostViewModel postVM)
         {
-            if (postVM.Image != null || postVM.Image.Length != 0)
+            if (postVM.Image != null && postVM.Image.Length != 0)
             {
                 postVM.FeaturedImageUrl = "~/Imagefiles/" + postVM.Image.FileName;
-                postService.Uploadimage(postVM.Image);
+                postService.Upload(postVM.Image);
             }
             
             postVM.Author = User.Identity.Name;
@@ -99,7 +99,9 @@ namespace CMS.Web.Controllers
             {
                 PostID = postVM.PostID,
                 Content = postVM.Content,
-                CommentTime = DateTime.Now
+                CommentTime = DateTime.Now,
+                IsApproved=postVM.CommentIsApproved,
+                CommentedBy=postVM.Commentedby
             };
 
             commentService.Create(commentVM);
@@ -110,12 +112,13 @@ namespace CMS.Web.Controllers
         {
             var post = postService.GetPostByID(id);
             post.Comments = commentService.GetCommentByPost(id);
+            post.Posts = postService.GetAllPost();
 
             return View(post);
             
         }
-        [Authorize]
-        public ActionResult PostByAuthor()
+        //[Authorize]
+        public ActionResult DashBoard()
         {
             var post = postService.GetPostByAuthor(User.Identity.Name);
 
