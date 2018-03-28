@@ -113,6 +113,7 @@ namespace CMS.Web.Controllers
             var post = postService.GetPostByID(id);
             post.Comments = commentService.GetCommentByPost(id);
             post.Posts = postService.GetAllPost();
+            post.Terms = termService.GetAllTerm();
 
             return View(post);
             

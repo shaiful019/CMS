@@ -64,31 +64,61 @@
             by @Html.DisplayFor(model => model.Author) at @Html.DisplayFor(model => model.CreatedDate)
         </h5>
         <hr />
-        @if (String.IsNullOrEmpty(@Model.Url))
-        {
-            <img src="@Url.Content(@Model.FeaturedImageUrl)" id="img" class="img-responsive" onerror="this.onerror=null;this.src='@Url.Content("~/Imagefiles/imgnotfound.png")';" />
-        }
-        else if (String.IsNullOrEmpty(@Model.FeaturedImageUrl))
-        {
-            @Html.Raw("<iframe width=" + '"' + "1118" + '"' + " height=" + '"' + "628" + '"' + " src =" + '"' + "https://www.youtube.com/embed/" + Model.Url + '"' + " frameborder=" + '"' + "0" + '"' + " allow=" + '"' + "autoplay; encrypted-media" + '"' + " allowfullscreen ></iframe>");
+        @if (String.IsNullOrEmpty(@Model.Url) && String.IsNullOrEmpty(@Model.FeaturedImageUrl))
+    {
+        <img id="img" class="img-responsive" src='@Url.Content("~/Imagefiles/imgnotfound.png")' ;" />
+}
+else if (String.IsNullOrEmpty(@Model.Url))
+{
+    <img src="@Url.Content(@Model.FeaturedImageUrl)" id="img" class="img-responsive" ;" />
+}
+else if (String.IsNullOrEmpty(@Model.FeaturedImageUrl))
+{
+    @Html.Raw("<iframe width=" + '"' + "1118" + '"' + " height=" + '"' + "628" + '"' + " src =" + '"' + "https://www.youtube.com/embed/" + Model.Url + '"' + " frameborder=" + '"' + "0" + '"' + " allow=" + '"' + "autoplay; encrypted-media" + '"' + " allowfullscreen ></iframe>");
+}
 
-
-        }
 
         <br />
         <p align="justify"><font size="3">@Html.Raw(Model.Content)</font></p>
         <br />
 
-        <p>All Comments (@Model.Comments.Count()) </p>
-        @foreach (var item in Model.Comments)
+
+        @foreach (var terms in Model.Terms)
+    {
+
+        if (terms.Type.Equals("0"))
         {
+            <a asp-action="Postview" asp-route-id="@terms.TermID"><span class="label label-primary"> @terms.Content</span></a>
+    }
+    else
+    {
+        <a asp-action="Postview" asp-route-id="@terms.TermID"><span class="label label-success"> @terms.Content</span></a>
+}
+
+}
+        <br />
+        <br />
+        <p>All Comments (@Model.Comments.Count()) </p>
+        <br />
+        @foreach (var item in Model.Comments)
+    {
+        <div class="well well-sm">
+
             <p>@Html.Raw(item.Content)</p>
-            <p>Commented by @Html.Raw(item.CommentedBy)</p>
-            <p>@Html.Raw(item.CommentTime)</p>
-        }
+
+
+            <p style="float:right;">Commented by @Html.Raw(item.CommentedBy)</p>
+
+            <p style="float:right;">@Html.Raw(item.CommentTime)</p>
+            <br />
+        </div>
+}
+
+        <br />
         <br />
 
     </div>
+    <br />
     <div>
         @using (Html.BeginForm("Comment", "Post", FormMethod.Post))
         {
@@ -111,20 +141,22 @@
                             </ul>
                         </div>
                     </div>
-                    Model.CommentIsApproved = 0;
+                    <input type="hidden" name="CommentIsApproved" value="0" id="CommentIsApproved" class="form-control" aria-label="...">
                     <br />
                     <br />
                     <br />
                 }
                 else if (User.Identity.Name.Equals(Model.Author))
                 {
-                    Model.Commentedby = User.Identity.Name;
-                    Model.CommentIsApproved = 1;
+                    <input type="hidden" name="Commentedby" value="@User.Identity.Name" id="commentedby" class="form-control" aria-label="...">
+                    <input type="hidden" name="CommentIsApproved" value="1" id="CommentIsApproved" class="form-control" aria-label="...">
+
                 }
                 else
                 {
-                    Model.Commentedby = User.Identity.Name;
-                    Model.CommentIsApproved = 0;
+                    <input type="hidden" name="Commentedby" value="@User.Identity.Name" id="commentedby" class="form-control" aria-label="...">
+                    <input type="hidden" name="CommentIsApproved" value="0" id="CommentIsApproved" class="form-control" aria-label="...">
+
                 }
 
                 <textarea name="Content" id="editor1" class="form-control" placeholder="Write your comment here"></textarea>
@@ -134,37 +166,43 @@
         }
     </div>
     <div class="container">
-        <h1>Use Bootstrap's carousel to show multiple items per slide.</h1>
+        <h1>Realeted Posts</h1>
         <div class="row">
             <div class="col-md-12">
                 <div class="carousel slide multi-item-carousel" id="theCarousel">
                     <div class="carousel-inner">
+                        @{ int i = 0; }
+                        @foreach (var item in Model.Posts)
+                        {
+                            string cls = null;
+                            if (i == 0)
+                            {
+                                cls = "item active";
+                            }
+                            else
+                            {
+                                cls = "item";
+                            }
+                            <div class="@cls">
+                                @if (String.IsNullOrEmpty(item.FeaturedImageUrl) && String.IsNullOrEmpty(item.Url))
+                                {
+                                    <div class="col-xs-4"><a asp-action="Postview" asp-route-id="@item.PostID"><img src="@Url.Content("~/Imagefiles/imgnotfound.png")" class="img-thumbnail" />@item.Title</a></div>
+                                }
+                                else if (String.IsNullOrEmpty(item.FeaturedImageUrl))
+                                {
 
+                                    string s = "http://img.youtube.com/vi/" + item.Url + "/maxresdefault.jpg";
+                                    <div class="col-xs-4"><a asp-action="Postview" asp-route-id="@item.PostID"><img src="@s" class="img-thumbnail" />@item.Title</a></div>
 
-                    <div class="item active">
-                        <div class="col-xs-4"><a href="#1"><img src="@Model.FeaturedImageUrl.IndexOf('0')" class="img-responsive"></a></div>
-                    </div>
-                    <div class="item">
-                        <div class="col-xs-4"><a href="#1"><img src="@Model.FeaturedImageUrl.IndexOf('1')" class="img-responsive"></a></div>
-                    </div>
-                    <div class="item">
-                        <div class="col-xs-4"><a href="#1"><img src="@Model.FeaturedImageUrl.IndexOf('9')" class="img-responsive"></a></div>
-                    </div>
-                    <div class="item">
-                        <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/673ab7/000000" class="img-responsive"></a></div>
-                    </div>
-                    <div class="item">
-                        <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/4caf50/000000" class="img-responsive"></a></div>
-                    </div>
-                    <div class="item">
-                        <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/8bc34a/000000" class="img-responsive"></a></div>
-                    </div>
-                    <div class="item">
-                        <div class="col-xs-4"><a href="#1"><img src="http://placehold.it/300/8bc34a/000000" class="img-responsive"></a></div>
-                    </div>
+                                }
+                                else if (String.IsNullOrEmpty(item.Url))
+                                {
+                                    <div class="col-xs-4"><a asp-action="Postview" asp-route-id="@item.PostID"><img src="@Url.Content(item.FeaturedImageUrl)" class="img-thumbnail" />@item.Title</a></div>
+                                }
 
-                        
-                       
+                            </div>
+                            i++;
+                        }
 
                     </div>
                     <a class="left carousel-control" href="#theCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
