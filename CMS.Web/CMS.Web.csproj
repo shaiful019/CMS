@@ -4,6 +4,12 @@
     <UserSecretsId>aspnet-CMS.Web-D4191AFE-1F7F-4646-BE9C-EE5477F9B68B</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="wwwroot\Videofiles\**" />
+    <Content Remove="wwwroot\Videofiles\**" />
+    <EmbeddedResource Remove="wwwroot\Videofiles\**" />
+    <None Remove="wwwroot\Videofiles\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="ckeditor-full" Version="4.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
@@ -15,6 +21,9 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="wwwroot\js\multicarous.js" />
+    <None Include="wwwroot\js\site.js" />
+    <None Include="wwwroot\js\site.min.js" />
     <None Include="wwwroot\select2\.github\CONTRIBUTING.md" />
     <None Include="wwwroot\select2\.github\ISSUE_TEMPLATE.md" />
     <None Include="wwwroot\select2\.github\PULL_REQUEST_TEMPLATE.md" />
@@ -22,8 +31,5 @@
   <ItemGroup>
     <ProjectReference Include="..\CMS.Core\CMS.Core.csproj" />
     <ProjectReference Include="..\CMS.Domain\CMS.Domain.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\Videofiles\" />
   </ItemGroup>
 </Project>

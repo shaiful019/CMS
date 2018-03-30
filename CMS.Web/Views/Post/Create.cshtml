@@ -5,88 +5,6 @@
 }
 
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="~/select2/dist/css/select2.css" rel="stylesheet" />
-    <link href="~/summernote/summernote.css" rel="stylesheet" />
-    <style>
-        body {
-            font-family: "Lato", sans-serif;
-            transition: background-color .5s;
-        }
-
-        .sidenav {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            background-color: #111;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-        }
-
-            .sidenav a {
-                padding: 8px 8px 8px 32px;
-                text-decoration: none;
-                font-size: 25px;
-                color: #818181;
-                display: block;
-                transition: 0.3s;
-            }
-
-                .sidenav a:hover {
-                    color: #f1f1f1;
-                }
-
-            .sidenav .closebtn {
-                float: right;
-                margin-bottom: 100px;
-            }
-
-        #main {
-            transition: margin-left .5s;
-            padding: 16px;
-        }
-    </style>
-</head>
-<body>
-
-    <div id="mySidenav" class="sidenav">
-
-
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-
-        <br />
-        <br />
-        <br />
-
-
-        <a asp-controller="Post" asp-action="Dashboard" class="btn btn-info btn-lg" style="font-size: 18px; ">All Posts</a>
-        <br />
-        <a asp-controller="Post" asp-action="Create" class="btn btn-info btn-lg" style="font-size: 18px;">Create New Post</a>
-        <br />
-        <a href="#" class="btn btn-info btn-lg" style="font-size: 18px;">All Comments</a>
-        <br />
-
-        <a href="/Account/Manage/ChangePassword" class="btn btn-info btn-lg" style="font-size: 18px;">Change Password</a>
-        <br />
-        <a href="/Account/Manage/Index" class="btn btn-info btn-lg " style="font-size: 18px;">Manage Profile</a>
-        <br />
-        <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
-            <a class="btn btn-info btn-lg" onclick="document.getElementById('logoutForm').submit()" style="font-size: 18px;">Log out </a>
-        </form>
-    </div>
-    <br />
-    <span style="font-size:30px;cursor:pointer;float:left;" class="glyphicon glyphicon-th-list" onclick="openNav()"></span>
-    <br />
-    <br />
-    <br />
-    <div class="row" style="margin-left: 10px; ">
-        <div class="col-md-8">
             <form asp-action="Create" enctype="multipart/form-data" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
@@ -97,7 +15,7 @@
 
                 <div class="form-group">
                     <label class="control-label">Catagories</label>
-
+                    <br/>
                     <select asp-for="Termid" class="form-control" multiple id="multiple_catagory">
                         @foreach (var item in Model.Terms)
                         {
@@ -123,7 +41,7 @@
 
                 <div class="form-group">
                     <label class="control-label">Tags</label>
-
+                    <br/>
                     <select asp-for="Termid" class="form-control" multiple id="multiple_tag">
                         @foreach (var item in Model.Terms)
                         {
@@ -153,16 +71,8 @@
                     <input type="submit" value="Create" class="btn btn-default" />
                 </div>
             </form>
-        </div>
-    </div>
 
 
-
-
-
-
-</body>
-</html>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 

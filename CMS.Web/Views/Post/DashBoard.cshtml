@@ -4,58 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body {
-    font-family: "Lato", sans-serif;
-    transition: background-color .5s;
-}
 
-.sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #111;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
-}
-
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-}
-
-.sidenav a:hover {
-    color: #f1f1f1;
-}
-
-.sidenav .closebtn {
-    float:right;
-    margin-bottom: 100px;
-}
-
-#main {
-    transition: margin-left .5s;
-    padding: 16px;
-}
-
-</style>
-</head>
-<body>
-
-    <div id="mySidenav" class="sidenav">
+    @*<div id="mySidenav" class="sidenav">
 
 
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
@@ -79,7 +29,7 @@ body {
         <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
             <a class="btn btn-info btn-lg" onclick="document.getElementById('logoutForm').submit()" style="font-size: 18px;">Log out </a>
         </form>
-    </div>
+    </div>*@
     <br/>
     <span style="font-size:30px;cursor:pointer;float:left;" class="glyphicon glyphicon-th-list" onclick="openNav()"></span>
     <div id="main">
@@ -147,8 +97,7 @@ body {
         }
         </div>
         </div>
-</body>
-</html>
+
 
 
 @section scripts {
