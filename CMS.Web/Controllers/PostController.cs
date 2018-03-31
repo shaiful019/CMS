@@ -126,6 +126,16 @@ namespace CMS.Web.Controllers
             return View(post);
 
         }
+        public ActionResult ApproveComment()
+        {
+            return View();
+        }
+        public ActionResult Search(string s)
+        {
+            var post = postService.Search(s); 
+            return View(post);
+        }
+
 
     }
 }

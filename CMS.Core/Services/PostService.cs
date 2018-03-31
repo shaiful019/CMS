@@ -185,6 +185,25 @@ namespace CMS.Core.Services
             
         }
 
+        public IEnumerable<PostViewModel> Search(string content)
+        {
+            var post = (from s in _unitOfWork.PostRepository.Get()
+                        where s.Content.Contains(content)
+                        select new PostViewModel
+                        {
+                            PostID = s.PostID,
+                            Title = s.Title,
+                            Content = s.Content,
+                            FeaturedImageUrl = s.FeaturedImageUrl,
+                            Url = s.Url,
+                            CreatedDate = s.CreatedDate,
+                            Author = s.Author,
+                            ModifiedBy = s.ModifiedBy,
+                            ModifiedDate = s.ModifiedDate,
+                            Terms = GetTermByPost(s.PostID)
+                        }).AsEnumerable();
 
+            return post;
+        }
     }
 }

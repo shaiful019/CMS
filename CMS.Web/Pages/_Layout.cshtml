@@ -7,12 +7,9 @@
     <title>@ViewData["Title"] - CMS.Web</title>
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>SB Admin - Start Bootstrap Template</title>
-    <!-- Bootstrap core CSS-->
+    
     <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom fonts for this template-->
     <link href="~/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <!-- Custom styles for this template-->
     <link href="~/css/sb-admin.css" rel="stylesheet">
 </head>
 <body>
@@ -23,9 +20,11 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav navbar-sidenav" style="margin-top: 62px; position:fixed;height:720px" id="exampleAccordion">
+            <ul class="navbar-nav navbar-sidenav" style="margin-top: 62px; position:fixed;height:730px" id="exampleAccordion">
+                <br />
+                <br />
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" asp-controller="Post" asp-action="DashBoard">
                         <i class="fa fa-fw fa-dashboard"></i>
                         <span class="nav-link-text">Dashboard</span>
                     </a>
@@ -193,7 +192,9 @@
                     <br />
                     <br />
                     <br />
+                    
                     @RenderBody()
+                    
                     <hr />
                     <footer class="sticky-footer" style="width: 100%;position:fixed">
                         <p style="float:right;margin-right:10px">&copy; 2017 - CMS.Web</p>
