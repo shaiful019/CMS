@@ -24,6 +24,6 @@ namespace CMS.Domain.Models
         public int IsDeleted { get; set; }
 
         public ICollection<PostTerm> PostTerms { get; set; }
-
+        public PostStatus PostViewStatus { get; set; }
     }
 }

@@ -61,18 +61,25 @@ namespace CMS.Web.Controllers
             postVM.Author = User.Identity.Name;
             postVM.CreatedDate = DateTime.Now;
             
-            var data = new PostTermViewModel
+            var posttermVM = new PostTermViewModel
             {
                 PostID = postVM.PostID,
                 TermID = postVM.Termid
             };
-           
-            postService.Create(postVM,data);
+
+            var poststatusVM = new PostStatusViewModel
+            {
+                PostID = postVM.PostID,
+                ViewCount =0
+                
+            };
+
+            var post=postService.Create(postVM, posttermVM, poststatusVM);
             var item = new PostViewModel
             {
                 Terms = termService.GetAllTerm()
             };
-            return View(item);
+            return RedirectToAction(nameof(Postview), new { id = post.PostID.ToString() });
         }
 
         public ActionResult Edit(int id)
@@ -106,7 +113,7 @@ namespace CMS.Web.Controllers
 
             commentService.Create(commentVM);
 
-            return View();
+            return RedirectToAction(nameof(Postview), new { id = postVM.PostID.ToString() });
         }
         public ActionResult Postview(int id)
         {
@@ -114,14 +121,25 @@ namespace CMS.Web.Controllers
             post.Comments = commentService.GetCommentByPost(id);
             post.Posts = postService.GetAllPost();
             post.Terms = termService.GetAllTerm();
-
+            if (String.IsNullOrEmpty(User.Identity.Name) || !User.Identity.Name.Equals(post.Author))
+            {
+                postService.UpdatePostView(postService.GetPostView(id));
+            }
             return View(post);
             
         }
-        //[Authorize]
+        [Authorize]
         public ActionResult DashBoard()
         {
-            var post = postService.GetPostByAuthor(User.Identity.Name);
+            PostViewModel post = new PostViewModel
+            {
+                Posts = postService.GetPostByAuthor(User.Identity.Name),
+                Comments =commentService.GetCommentByAuthor(User.Identity.Name),
+                CommentsApproval=commentService.CommentsToApprove(User.Identity.Name),
+                PostView = postService.GetPostViewbByAuthor(User.Identity.Name)
+            };
+            
+            
 
             return View(post);
 

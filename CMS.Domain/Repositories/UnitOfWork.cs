@@ -67,5 +67,31 @@ namespace CMS.Domain.Repositories
                 return CommentRepo;
             }
         }
+
+        private IRepository<PostStatus> PostStatusRepo;
+        public IRepository<PostStatus> PostStatusRepository
+        {
+            get
+            {
+                if (this.PostStatusRepo == null)
+                {
+                    this.PostStatusRepo = new Repository<PostStatus>(_db);
+                }
+                return PostStatusRepo;
+            }
+        }
+
+        private IRepository<CommentStatus> CommentStatusRepo;
+        public IRepository<CommentStatus> CommentStatusRepository
+        {
+            get
+            {
+                if (this.CommentStatusRepo == null)
+                {
+                    this.CommentStatusRepo = new Repository<CommentStatus>(_db);
+                }
+                return CommentStatusRepo;
+            }
+        }
     }
 }

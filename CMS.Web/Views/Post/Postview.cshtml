@@ -5,8 +5,15 @@
     ViewData["Title"] = "View Post";
 }
 
-<div style="margin-left: 14%;">
-    <h2>@Html.DisplayFor(model => model.Title)</h2>
+<div style="margin-left: 14%;margin-right:14%;">
+    @if (String.IsNullOrEmpty(User.Identity.Name))
+    {
+        <h2> <b>@Model.Title </b></h2>
+    }
+    else if (User.Identity.Name.Equals(Model.Author))
+    {
+        <h2> <b>@Model.Title <a asp-action="Edit" asp-route-id="@Model.PostID"><span class="glyphicon glyphicon-edit" style="width:25%;"></span></a></b></h2>
+    }
 
     <h5>
         by @Html.DisplayFor(model => model.Author) at @Html.DisplayFor(model => model.CreatedDate)
@@ -28,7 +35,7 @@
 </div>
     <br />
     <br />
-    <div  style="text-align:justify;margin-left:10%; padding:5px;width:82%"><p align="justify"><font size="3">@Html.Raw(Model.Content)</font></p></div>
+    <div  style="text-align:justify;margin-left:10%; padding:5px;width:82%"><p align="justify"><font size="4">@Html.Raw(Model.Content)</font></p></div>
     <br />
     <br />
     <div style="margin-left: 12%; margin-right:8%">
@@ -37,28 +44,47 @@
 
          if (terms.Type.Equals("0"))
          {
-            <a asp-action="Postview" asp-route-id="@terms.TermID"><span class="label label-primary"> @terms.Content</span></a>
+            <a asp-action="Postview" asp-route-id="@terms.TermID"><span class="label label-primary"><font size="2"> @terms.Content&nbsp;</font></span></a>
          }
          else
          {
-            <a asp-action="Postview" asp-route-id="@terms.TermID"><span class="label label-success"> @terms.Content</span></a>
+            <a asp-action="Postview" asp-route-id="@terms.TermID"><span class="label label-success"> <font size="2"> @terms.Content&nbsp;</font></span></a>
          }
 
         }
         <br />
         <br />
-        <p>All Comments (@Model.Comments.Count()) </p>
+
+        <p>Total Comments (@Model.Comments.Count()) </p>
+        <br />
         <br />
         </div>
-        <div style="margin-left: 14%; margin-right:10%">
+        <div style="margin-left: 14%; margin-right:14%">
         @foreach (var item in Model.Comments)
         {
-        <div class="well well-sm" style="border-radius: 20px;">
-            <p>@Html.Raw(item.Content)</p>
-            <p style="float:right;height: 10px;">Commented by @Html.Raw(item.CommentedBy)</p>
-            <br>
-            <p style="float:right;height: 10px;">@Html.Raw(item.CommentTime)</p>
-            <br />
+            int a = (int)DateTime.Now.Subtract(item.CommentTime).TotalSeconds;
+            string tt=null;
+            if (a < 60)
+            {
+                tt = " less than a minute ago";
+            }
+            else if (a < 3600)
+            {
+                tt = a / 60 + " minute ago";
+            }
+            else if (a < 86400)
+            {
+                tt = a / 3600 + " hour ago";
+            }
+            else
+            {
+                tt = a / 86400 + " day ago";
+            }
+            <font size="5">@Html.Raw(item.CommentedBy+ "&nbsp&nbsp&nbsp&nbsp&nbsp") </font> <i class="fa fa-fw glyphicon glyphicon-time"></i>@Html.Raw("&nbsp"+tt)
+        <br/>
+        <br/>
+        <div class="well">
+            @Html.Raw(item.Content)
         </div>
         <br/>
         }

@@ -11,9 +11,10 @@ using System;
 namespace CMS.Domain.Migrations
 {
     [DbContext(typeof(CMSContext))]
-    partial class CMSContextModelSnapshot : ModelSnapshot
+    [Migration("20180401174940_status_add")]
+    partial class status_add
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,9 +98,6 @@ namespace CMS.Domain.Migrations
 
                     b.HasKey("PostStatusID");
 
-                    b.HasIndex("PostID")
-                        .IsUnique();
-
                     b.ToTable("PostStatus");
                 });
 
@@ -133,14 +131,6 @@ namespace CMS.Domain.Migrations
                     b.HasKey("TermID");
 
                     b.ToTable("Term");
-                });
-
-            modelBuilder.Entity("CMS.Domain.Models.PostStatus", b =>
-                {
-                    b.HasOne("CMS.Domain.Models.Post", "Post")
-                        .WithOne("PostViewStatus")
-                        .HasForeignKey("CMS.Domain.Models.PostStatus", "PostID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CMS.Domain.Models.PostTerm", b =>

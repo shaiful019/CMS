@@ -16,6 +16,22 @@ namespace CMS.Core.Services
             _unitOfWork = unitOfWork;
         }
 
+        public IEnumerable<CommentViewModel> CommentsToApprove(string User)
+        {
+            var data = (from s in _unitOfWork.CommentRepository.Get()
+                        join c in _unitOfWork.PostRepository.Get() on s.PostID equals c.PostID
+                        where c.Author == User && s.IsApproved == 0
+                        select new CommentViewModel
+                        {
+                            CommentID = s.CommentID,
+                            Content = s.Content,
+                            PostID = s.PostID,
+                            CommentedBy = s.CommentedBy,
+                            CommentTime = s.CommentTime
+                        }).AsEnumerable();
+            return data;
+        }
+
         public Comment Create(CommentViewModel commentVM)
         {
             var comment = new Comment
@@ -31,6 +47,21 @@ namespace CMS.Core.Services
             _unitOfWork.CommentRepository.Insert(comment);
             _unitOfWork.Save();
             return comment;
+        }
+
+        public IEnumerable<CommentViewModel> GetCommentByAuthor(string User)
+        {
+            var data = (from s in _unitOfWork.CommentRepository.Get()
+                         where s.CommentedBy == User
+                         select new CommentViewModel
+                         {
+                             CommentID = s.CommentID,
+                             Content = s.Content,
+                             PostID = s.PostID,
+                             CommentedBy = s.CommentedBy,
+                             CommentTime = s.CommentTime
+                         }).AsEnumerable();
+            return data;
         }
 
         public IEnumerable<CommentViewModel> GetCommentByPost(int postID)

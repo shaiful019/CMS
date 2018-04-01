@@ -9,7 +9,7 @@ namespace CMS.Core.Interfaces
 {
     public interface IPostService
     {
-        Post Create(PostViewModel postVM, PostTermViewModel posttermVM);
+        Post Create(PostViewModel postVM, PostTermViewModel posttermVM, PostStatusViewModel poststatusVM);
         Post Update(PostViewModel postVM);
         PostViewModel GetPostByID(int id);
         IEnumerable<PostViewModel> GetPostByAuthor(string author);
@@ -17,6 +17,9 @@ namespace CMS.Core.Interfaces
         IEnumerable<PostViewModel> GetAllPost();
         IEnumerable<TermViewModel> GetTermByPost(int postID);
         IEnumerable<PostViewModel> Search(string content);
+        PostStatus UpdatePostView(PostStatusViewModel postStatusVM);
+        PostStatusViewModel GetPostView(int postID);
+        IEnumerable<PostStatusViewModel> GetPostViewbByAuthor(string author);
         void Upload(IFormFile file);
         
     }

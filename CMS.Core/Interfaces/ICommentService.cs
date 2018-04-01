@@ -11,6 +11,8 @@ namespace CMS.Core.Interfaces
         Comment Create(CommentViewModel commentVM);
 
         IEnumerable<CommentViewModel> GetCommentByPost(int postID);
+        IEnumerable<CommentViewModel> GetCommentByAuthor(string User);
+        IEnumerable<CommentViewModel> CommentsToApprove(string User);
 
     }
 }

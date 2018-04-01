@@ -20,7 +20,7 @@ namespace CMS.Core.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Post Create(PostViewModel postVM, PostTermViewModel posttermVM)
+        public Post Create(PostViewModel postVM, PostTermViewModel posttermVM,PostStatusViewModel poststatusVM)
         {
             var post = new Post
             {
@@ -33,11 +33,10 @@ namespace CMS.Core.Services
                 Author = postVM.Author,
                 ModifiedBy = postVM.ModifiedBy,
                 ModifiedDate = postVM.ModifiedDate,
-                IsDeleted =0
+                IsDeleted = 0
+                
             };
-
-            //_unitOfWork.PostRepository.Insert(post);
-
+            
             post.PostTerms = new List<PostTerm>();
 
 
@@ -47,9 +46,13 @@ namespace CMS.Core.Services
                 {
                     TermID = termID
                 });
-                //_unitOfWork.PostTermRepository.Insert(term);
             }
 
+
+            post.PostViewStatus = new PostStatus
+            {
+                ViewCount = 0
+            };
             _unitOfWork.PostRepository.Insert(post);
             _unitOfWork.Save();
 
@@ -182,7 +185,7 @@ namespace CMS.Core.Services
                 file.CopyTo(stream);
             }
 
-            
+
         }
 
         public IEnumerable<PostViewModel> Search(string content)
@@ -204,6 +207,47 @@ namespace CMS.Core.Services
                         }).AsEnumerable();
 
             return post;
+        }
+
+        public PostStatus UpdatePostView(PostStatusViewModel postStatusVM)
+        {
+            var poststatus =_unitOfWork.PostStatusRepository.GetById(postStatusVM.PostStatusID);
+            poststatus.ViewCount = postStatusVM.ViewCount + 1;
+
+            _unitOfWork.PostStatusRepository.Update(poststatus);
+            _unitOfWork.Save();
+
+            return poststatus;
+
+        }
+
+        public PostStatusViewModel GetPostView(int postID)
+        {
+            var postView = (from s in _unitOfWork.PostStatusRepository.Get()
+                        where s.PostID == postID
+                        select new PostStatusViewModel
+                        {
+                         PostID=s.PostID,
+                         PostStatusID = s.PostStatusID,
+                         ViewCount =s.ViewCount
+                        }).SingleOrDefault();
+
+            return postView;
+
+        }
+
+        public IEnumerable<PostStatusViewModel> GetPostViewbByAuthor(string author)
+        {
+            var postView = (from s in _unitOfWork.PostStatusRepository.Get()
+                            join pt in _unitOfWork.PostRepository.Get() on s.PostID equals pt.PostID
+                            where pt.Author == author
+                            select new PostStatusViewModel
+                            {
+                                PostID = s.PostID,
+                                PostStatusID = s.PostStatusID,
+                                ViewCount = s.ViewCount
+                            }).AsEnumerable();
+            return postView;
         }
     }
 }

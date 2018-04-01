@@ -30,6 +30,7 @@ namespace CMS.Domain.ViewModels
         public DateTime ModifiedDate { get; set; }
 
         public IEnumerable<CommentViewModel> Comments { get; set; }
+        public IEnumerable<CommentViewModel> CommentsApproval { get; set; }
         public string Commentedby { get; set; }
         public int CommentIsApproved { get; set; }
 
@@ -37,5 +38,6 @@ namespace CMS.Domain.ViewModels
         public List<int> Termid  { get; set; }
 
         public IEnumerable<PostViewModel> Posts { get; set; }
+        public IEnumerable<PostStatusViewModel> PostView { get; set; }
     }
 }
