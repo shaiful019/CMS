@@ -153,7 +153,12 @@ namespace CMS.Web.Controllers
             var post = postService.Search(s); 
             return View(post);
         }
-
+        public ActionResult PostByTerm(int id)
+        {
+            var post = postService.GetPostByTerm(id);
+            return View(post);
+        }
+        
 
     }
 }

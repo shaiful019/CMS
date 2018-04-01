@@ -152,7 +152,8 @@ namespace CMS.Core.Services
                             CreatedDate = p.CreatedDate,
                             Author = p.Author,
                             ModifiedBy = p.ModifiedBy,
-                            ModifiedDate = p.ModifiedDate
+                            ModifiedDate = p.ModifiedDate,
+                            Terms = GetTermByPost(p.PostID)
                         }).AsEnumerable();
 
             return data;
