@@ -120,7 +120,7 @@ namespace CMS.Web.Controllers
             var post = postService.GetPostByID(id);
             post.Comments = commentService.GetCommentByPost(id);
             post.Posts = postService.GetAllPost();
-            post.Terms = termService.GetAllTerm();
+            post.Terms = postService.GetTermByPost(id);
             if (String.IsNullOrEmpty(User.Identity.Name) || !User.Identity.Name.Equals(post.Author))
             {
                 postService.UpdatePostView(postService.GetPostView(id));
