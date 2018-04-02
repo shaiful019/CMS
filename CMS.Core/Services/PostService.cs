@@ -90,7 +90,8 @@ namespace CMS.Core.Services
                             Author = s.Author,
                             ModifiedBy = s.ModifiedBy,
                             ModifiedDate = s.ModifiedDate,
-                            Terms = GetTermByPost(s.PostID)
+                            Terms = GetTermByPost(s.PostID),
+                            FeaturedPost = GetFeaturedPost()
                         }).AsEnumerable();
 
             return data;
@@ -249,6 +250,49 @@ namespace CMS.Core.Services
                                 ViewCount = s.ViewCount
                             }).AsEnumerable();
             return postView;
+        }
+
+        public PostViewModel GetLastPost(string user)
+        {
+            var data = (from s in _unitOfWork.PostRepository.Get()
+                        where s.Author == user orderby s.CreatedDate descending
+                        select new PostViewModel
+                        {
+                            PostID = s.PostID,
+                            Title = s.Title,
+                            Content = s.Content,
+                            FeaturedImageUrl = s.FeaturedImageUrl,
+                            Url = s.Url,
+                            CreatedDate = s.CreatedDate,
+                            Author = s.Author,
+                            ModifiedBy = s.ModifiedBy,
+                            ModifiedDate = s.ModifiedDate
+                        }).FirstOrDefault();
+
+            return data;
+
+
+        }
+
+        public PostViewModel GetFeaturedPost()
+        {
+            var data = (from s in _unitOfWork.PostRepository.Get()
+                        join pt in _unitOfWork.PostStatusRepository.Get() on s.PostID equals pt.PostID
+                        orderby pt.ViewCount descending
+                        select new PostViewModel
+                        {
+                            PostID = s.PostID,
+                            Title = s.Title,
+                            Content = s.Content,
+                            FeaturedImageUrl = s.FeaturedImageUrl,
+                            Url = s.Url,
+                            CreatedDate = s.CreatedDate,
+                            Author = s.Author,
+                            ModifiedBy = s.ModifiedBy,
+                            ModifiedDate = s.ModifiedDate
+                        }).FirstOrDefault();
+
+            return data;
         }
     }
 }

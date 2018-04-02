@@ -158,7 +158,18 @@ namespace CMS.Web.Controllers
             var post = postService.GetPostByTerm(id);
             return View(post);
         }
-        
+        public ActionResult LastPost()
+        {
+            var post = postService.GetLastPost(User.Identity.Name);
+            post.Comments = commentService.GetCommentByPost(post.PostID);
+            post.Posts = postService.GetAllPost();
+            post.Terms = postService.GetTermByPost(post.PostID);
+            if (String.IsNullOrEmpty(User.Identity.Name) || !User.Identity.Name.Equals(post.Author))
+            {
+                postService.UpdatePostView(postService.GetPostView(post.PostID));
+            }
+            return View(post);
 
+        }
     }
 }

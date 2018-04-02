@@ -12,6 +12,8 @@ namespace CMS.Core.Interfaces
         Post Create(PostViewModel postVM, PostTermViewModel posttermVM, PostStatusViewModel poststatusVM);
         Post Update(PostViewModel postVM);
         PostViewModel GetPostByID(int id);
+        PostViewModel GetLastPost(string user);
+        PostViewModel GetFeaturedPost();
         IEnumerable<PostViewModel> GetPostByAuthor(string author);
         IEnumerable<PostViewModel> GetPostByTerm(int termID);
         IEnumerable<PostViewModel> GetAllPost();

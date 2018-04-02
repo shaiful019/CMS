@@ -1,0 +1,219 @@
+﻿@model CMS.Domain.ViewModels.PostViewModel
+
+
+@{
+    ViewData["Title"] = "View Post";
+}
+
+<div style="margin-left: 14%;margin-right:14%;">
+    @if (String.IsNullOrEmpty(User.Identity.Name))
+    {
+        <h2> <b>@Model.Title </b></h2>
+    }
+    else if (User.Identity.Name.Equals(Model.Author))
+    {
+        <h2> <b>@Model.Title <a asp-action="Edit" asp-route-id="@Model.PostID"><span class="glyphicon glyphicon-edit" style="width:25%;"></span></a></b></h2>
+    }
+
+    <h5>
+        by @Html.DisplayFor(model => model.Author) at @Html.DisplayFor(model => model.CreatedDate)
+    </h5>
+    <hr />
+    @if (String.IsNullOrEmpty(@Model.Url) && String.IsNullOrEmpty(@Model.FeaturedImageUrl))
+    {
+        <img id="img" class="img-responsive" src='@Url.Content("~/Imagefiles/imgnotfound.png")' ;" />
+    }
+    else if (String.IsNullOrEmpty(@Model.Url))
+    {
+        <img src="@Url.Content(@Model.FeaturedImageUrl)" id="img" class="img-responsive" ;" />
+    }
+    else if (String.IsNullOrEmpty(@Model.FeaturedImageUrl))
+    {
+        @Html.Raw("<iframe width=" + '"' + "88%" + '"' + " height=" + '"' + "628" + '"' + " src =" + '"' + "https://www.youtube.com/embed/" + Model.Url + '"' + " frameborder=" + '"' + "0" + '"' + " allow=" + '"' + "autoplay; encrypted-media" + '"' + " allowfullscreen ></iframe>");
+    }
+
+</div>
+<br />
+<br />
+<div style="text-align:justify;margin-left:10%; padding:5px;width:82%"><p align="justify"><font size="4">@Html.Raw(Model.Content)</font></p></div>
+<br />
+<br />
+<div style="margin-left: 12%; margin-right:8%">
+    @foreach (var terms in Model.Terms)
+    {
+
+        if (terms.Type.Equals("0"))
+        {
+            <a asp-action="Postview" asp-route-id="@terms.TermID"><span class="label label-primary"><font size="2"> @terms.Content&nbsp;</font></span></a>
+        }
+        else
+        {
+            <a asp-action="Postview" asp-route-id="@terms.TermID"><span class="label label-success"> <font size="2"> @terms.Content&nbsp;</font></span></a>
+        }
+
+    }
+    <br />
+    <br />
+
+    <p>Total Comments (@Model.Comments.Count()) </p>
+    <br />
+    <br />
+</div>
+<div style="margin-left: 14%; margin-right:14%">
+    @foreach (var item in Model.Comments)
+    {
+        int a = (int)DateTime.Now.Subtract(item.CommentTime).TotalSeconds;
+        string tt = null;
+        if (a < 60)
+        {
+            tt = " less than a minute ago";
+        }
+        else if (a < 3600)
+        {
+            tt = a / 60 + " minute ago";
+        }
+        else if (a < 86400)
+        {
+            tt = a / 3600 + " hour ago";
+        }
+        else
+        {
+            tt = a / 86400 + " day ago";
+        }
+        <font size="5">@Html.Raw(item.CommentedBy + "&nbsp&nbsp&nbsp&nbsp&nbsp") </font> <i class="fa fa-fw glyphicon glyphicon-time"></i>@Html.Raw("&nbsp" + tt)
+        <br />
+        <br />
+        <div class="well">
+            @Html.Raw(item.Content)
+        </div>
+        <br />
+    }
+</div>
+<br />
+<br />
+
+
+<br />
+<div style="margin-left: 14%;margin-right:10%;">
+    @using (Html.BeginForm("Comment", "Post", FormMethod.Post))
+    {
+        @Html.HiddenFor(model => model.PostID)
+
+        <div class="form-group">
+            @if (String.IsNullOrEmpty(User.Identity.Name))
+            {
+
+                <div class="input-group">
+                    <input type="text" name="Commentedby" placeholder="Click to select role" id="commentedby" class="form-control" aria-label="...">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Comment as</button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="javascript:void(0)" id="with_ano" onclick="with_anonymous()">Anonymous</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="javascript:void(0)" onclick="with_email()">Email User</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a asp-page="/Account/Login">User</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <input type="hidden" name="CommentIsApproved" value="0" id="CommentIsApproved" class="form-control" aria-label="...">
+                <br />
+                <br />
+                <br />
+            }
+            else if (User.Identity.Name.Equals(Model.Author))
+            {
+                <input type="hidden" name="Commentedby" value="@User.Identity.Name" id="commentedby" class="form-control" aria-label="...">
+                <input type="hidden" name="CommentIsApproved" value="1" id="CommentIsApproved" class="form-control" aria-label="...">
+
+            }
+            else
+            {
+                <input type="hidden" name="Commentedby" value="@User.Identity.Name" id="commentedby" class="form-control" aria-label="...">
+                <input type="hidden" name="CommentIsApproved" value="0" id="CommentIsApproved" class="form-control" aria-label="...">
+
+            }
+
+            <textarea name="Content" id="editor1" class="form-control" placeholder="Write your comment here"></textarea>
+            <br />
+            <input type="submit" value="Comment" class="btn btn-default" />
+        </div>
+    }
+</div>
+<div class="container" style="margin-left: 16%;width:70%;">
+    <h3>Releated Posts</h3>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="carousel slide multi-item-carousel" id="theCarousel">
+                <div class="carousel-inner">
+                    @{ int i = 0; }
+                    @foreach (var item in Model.Posts)
+                    {
+                        string cls = null;
+                        if (i == 0)
+                        {
+                            cls = "item active";
+                        }
+                        else
+                        {
+                            cls = "item";
+                        }
+                        <div class="@cls">
+                            @if (String.IsNullOrEmpty(item.FeaturedImageUrl) && String.IsNullOrEmpty(item.Url))
+                            {
+                                <div class="col-xs-4"><a asp-action="Postview" asp-route-id="@item.PostID"><img src="@Url.Content("~/Imagefiles/imgnotfound.png")" class="img-thumbnail" />@item.Title</a></div>
+                            }
+                            else if (String.IsNullOrEmpty(item.FeaturedImageUrl))
+                            {
+
+                                string s = "http://img.youtube.com/vi/" + item.Url + "/maxresdefault.jpg";
+                                <div class="col-xs-4"><a asp-action="Postview" asp-route-id="@item.PostID"><img src="@s" class="img-thumbnail" />@item.Title</a></div>
+
+                            }
+                            else if (String.IsNullOrEmpty(item.Url))
+                            {
+                                <div class="col-xs-4"><a asp-action="Postview" asp-route-id="@item.PostID"><img src="@Url.Content(item.FeaturedImageUrl)" class="img-thumbnail" />@item.Title</a></div>
+                            }
+
+                        </div>
+                        i++;
+                    }
+
+                </div>
+                <a class="left carousel-control" href="#theCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                <a class="right carousel-control" href="#theCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript" src="~/js/multicarous.js"></script>
+    <script type="text/javascript">
+
+        $("#img").on("error", function () {
+            $(this).attr('src', '@Url.Content("~/Imagefiles/imgnotfound.png")');
+        });
+
+        document.getElementById("with_ano").addEventListener('click', with_anonymous());
+        function with_anonymous() {
+            $('#commentedby').val("Anonymous");
+            $('#commentedby').attr("readonly", true);
+
+        }
+        function with_email() {
+            $('#commentedby').removeAttr("readonly");
+            $('#commentedby').val("");
+            $('#commentedby').attr("Placeholder","Enter Your email address");
+
+        }
+
+    </script>
+
+}
+

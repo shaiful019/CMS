@@ -37,6 +37,7 @@ namespace CMS.Domain.ViewModels
         public IEnumerable<TermViewModel> Terms { get; set; }
         public List<int> Termid  { get; set; }
 
+        public PostViewModel FeaturedPost { get; set; }
         public IEnumerable<PostViewModel> Posts { get; set; }
         public IEnumerable<PostStatusViewModel> PostView { get; set; }
     }

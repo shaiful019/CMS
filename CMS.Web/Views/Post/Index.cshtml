@@ -4,12 +4,14 @@
     ViewData["Title"] = "Index";
 }
 <div>
-    <br />
-    <br />
+    @{
+        int count = 0;
+    }
     @foreach (var post in Model)
     {
         int a = (int)DateTime.Now.Subtract(post.CreatedDate).TotalSeconds;
         string tt = null;
+
         if (a < 60)
         {
             tt = " less than a minute ago";
@@ -26,6 +28,59 @@
         {
             tt = a / 86400 + " day ago";
         }
+
+        if (count == 0)
+        {
+            <h3>Post of the day</h3>
+            <br/>
+            <div class="panel panel-collapse" style="margin-left:6%;margin-right:6%;">
+                <div class="panel-body">
+                    <br/>
+                    <div style="width:50%;margin-left:25%;margin-right:25%;">
+                        @if (String.IsNullOrEmpty(post.FeaturedPost.FeaturedImageUrl) && String.IsNullOrEmpty(post.FeaturedPost.Url))
+                            {
+                                <img src="@Url.Content("~/Imagefiles/imgnotfound.png")" class="img-fluid" />
+                            }
+                            else if (String.IsNullOrEmpty(post.FeaturedPost.FeaturedImageUrl))
+                            {
+
+                                string s = "http://img.youtube.com/vi/" + @post.FeaturedPost.Url + "/maxresdefault.jpg";
+                                <img src="@s" class="img-thumbnail" />
+
+                            }
+                            else if (String.IsNullOrEmpty(post.FeaturedPost.Url))
+                            {
+                                <img src="@Url.Content(@post.FeaturedPost.FeaturedImageUrl)" class="img-thumbnail" />
+                            }
+                    </div>
+                    <br/>
+                    @{
+                        string y = post.FeaturedPost.Content;
+
+                        if (y != null && y.Length > 1030)
+                        {
+                            y = y.Substring(0, 1030);
+                        }
+                    }
+                    <div style="text-align:justify;">
+                        <h3>@Html.Raw(post.FeaturedPost.Title) </h3>
+                        by @Html.Raw(post.FeaturedPost.Author)
+                        <br />
+                        <br />
+                        @Html.Raw(y)<b> . . .</b>
+                        <a asp-action="Postview" asp-route-id="@post.FeaturedPost.PostID"> View more</a>
+                    </div>
+
+                    <br/>
+                </div>
+            </div>
+            <br/>
+            <h3>Posts in the blog</h3>
+
+            <br/>
+            count++;
+        }
+
 
         <div class="panel panel-collapse" style="margin-left:6%;margin-right:6%;">
             <div class="panel-body">
@@ -48,15 +103,19 @@
                 </div>
                 <div style="width:67%; float:right;">
                     <br />
-                     @if(String.IsNullOrEmpty(User.Identity.Name))
-                      { 
+                    @if (String.IsNullOrEmpty(User.Identity.Name))
+                    {
                         <h4> <b>@post.Title </b></h4>
-                      }
-                     else if(User.Identity.Name.Equals(post.Author))
-                      {
+                    }
+                    else if (User.Identity.Name.Equals(post.Author))
+                    {
                         <h4> <b>@post.Title <a asp-action="Edit" asp-route-id="@post.PostID"><span class="glyphicon glyphicon-edit" style="width:25%;"></span></a></b></h4>
-                      }
-                    
+                    }
+                    else
+                    { 
+                        <h4> <b>@post.Title </b></h4>
+                    }
+
                     <font size="2">
                         <b><i>Created By</i></b> @post.Author &nbsp; @tt
                     </font>
