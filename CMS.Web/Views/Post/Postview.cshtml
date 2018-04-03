@@ -80,13 +80,23 @@
             {
                 tt = a / 86400 + " day ago";
             }
-            <font size="5">@Html.Raw(item.CommentedBy+ "&nbsp&nbsp&nbsp&nbsp&nbsp") </font> <i class="fa fa-fw glyphicon glyphicon-time"></i>@Html.Raw("&nbsp"+tt)
-        <br/>
-        <br/>
-        <div class="well">
-            @Html.Raw(item.Content)
-        </div>
-        <br/>
+            <div style="margin-left:5%;"><font size="5">@Html.Raw(item.CommentedBy + "&nbsp&nbsp&nbsp&nbsp&nbsp") </font> <i class="fa fa-fw glyphicon glyphicon-time"></i>@Html.Raw("&nbsp" + tt)</div>
+                <br/>
+            <div style="width:5%;float:left;">
+                <i class="fa fa-fw glyphicon glyphicon-chevron-up"></i>
+                <br />
+                00
+                <br />
+                <i class="fa fa-fw glyphicon glyphicon-chevron-down"></i>
+            </div>
+            <div style="width:95%;float:right;">
+                <div class="well">
+                    @Html.Raw(item.Content)
+                </div>
+                <br />
+            </div>
+            
+           
         }
         </div>
         <br />
