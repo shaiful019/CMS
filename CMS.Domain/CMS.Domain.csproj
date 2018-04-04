@@ -13,6 +13,7 @@
     <Compile Remove="Migrations\20180307121823_test_3_7-2.cs" />
     <Compile Remove="Migrations\20180308222156_test_march_9.cs" />
     <Compile Remove="Migrations\20180315171727_init_4.cs" />
+    <Compile Remove="Migrations\20180404102701_commentstatus_removed.cs" />
   </ItemGroup>
 
   <ItemGroup>

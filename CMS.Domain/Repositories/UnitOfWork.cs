@@ -81,17 +81,6 @@ namespace CMS.Domain.Repositories
             }
         }
 
-        private IRepository<CommentStatus> CommentStatusRepo;
-        public IRepository<CommentStatus> CommentStatusRepository
-        {
-            get
-            {
-                if (this.CommentStatusRepo == null)
-                {
-                    this.CommentStatusRepo = new Repository<CommentStatus>(_db);
-                }
-                return CommentStatusRepo;
-            }
-        }
+        
     }
 }

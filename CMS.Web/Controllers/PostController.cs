@@ -30,13 +30,37 @@ namespace CMS.Web.Controllers
 
         }
 
+        //public ActionResult Index()
+        //{
+            
+        //    var item = postService.GetAllPost();
+        //    return View(item);
 
-        public ActionResult Index()
+        //}
+
+        public ActionResult Index(string searchcontent)
         {
 
-            var item = postService.GetAllPost();
+            try
+            {
+                if (String.IsNullOrEmpty(searchcontent))
+                {
+                    var item = postService.GetAllPost();
+                    return View(item);
+                }
+                else
+                {
+                    var item = postService.Search(searchcontent);
+                    ViewBag.searchcontent = searchcontent;
+                    return View(item);
+                }
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+
             
-            return View(item);
         }
 
         public ActionResult Create()
