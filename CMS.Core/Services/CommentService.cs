@@ -16,6 +16,23 @@ namespace CMS.Core.Services
             _unitOfWork = unitOfWork;
         }
 
+        public IEnumerable<CommentViewModel> GetChildComment()
+        {
+            var data = (from s in _unitOfWork.CommentRepository.Get()
+                        where s.ParentID == 0 
+                        select new CommentViewModel
+                        {
+                            CommentID = s.CommentID,
+                            Content = s.Content,
+                            PostID = s.PostID,
+                            CommentedBy = s.CommentedBy,
+                            CommentTime = s.CommentTime,
+                            ParentID = s.ParentID
+
+                        }).AsEnumerable();
+            return data;
+        }
+
         public IEnumerable<CommentViewModel> CommentsToApprove(string User)
         {
             var data = (from s in _unitOfWork.CommentRepository.Get()
@@ -27,7 +44,8 @@ namespace CMS.Core.Services
                             Content = s.Content,
                             PostID = s.PostID,
                             CommentedBy = s.CommentedBy,
-                            CommentTime = s.CommentTime
+                            CommentTime = s.CommentTime,
+                            
                         }).AsEnumerable();
             return data;
         }
@@ -41,7 +59,8 @@ namespace CMS.Core.Services
                 PostID = commentVM.PostID,
                 CommentedBy=commentVM.CommentedBy,
                 CommentTime=DateTime.Now,
-                IsApproved=commentVM.IsApproved
+                IsApproved=commentVM.IsApproved,
+                ParentID = commentVM.ParentID
 
             };
             _unitOfWork.CommentRepository.Insert(comment);
@@ -67,14 +86,15 @@ namespace CMS.Core.Services
         public IEnumerable<CommentViewModel> GetCommentByPost(int postID)
         {
             var data = (from s in _unitOfWork.CommentRepository.Get()
-                        where s.PostID == postID 
+                        where s.PostID == postID && s.ParentID ==0
                         select new CommentViewModel
                         {
                             CommentID = s.CommentID,
                             Content = s.Content,
                             PostID = s.PostID,
                             CommentedBy = s.CommentedBy,
-                            CommentTime = s.CommentTime
+                            CommentTime = s.CommentTime,
+                            ParentID = s.ParentID
                         }).AsEnumerable();
 
             return data;

@@ -71,7 +71,7 @@
         @foreach (var item in Model.Comments)
         {
             int a = (int)DateTime.Now.Subtract(item.CommentTime).TotalSeconds;
-            string tt=null;
+            string tt = null;
             if (a < 60)
             {
                 tt = " less than a minute ago";
@@ -93,23 +93,28 @@
                 <div style="width:95%;float:right;">
                     <div class="well">
                         @Html.Raw(item.Content)
-                        <div style="width:5%;margin-bottom:0px;float:right;"><a href="javascript:void(0)" id="reply" class="glyphicon glyphicon-share-alt" onclick="show()"></a></div>
+                        <div style="width:5%;margin-bottom:0px;float:right;"><a href="javascript:void(0)" id="reply" class="glyphicon glyphicon-share-alt" onclick="show(@item.CommentID)"></a></div>
                         <br/>
                         <br/>
                         @*Commentsofcomment*@
-                        <div hidden id="childcomment">
+                        @{
+                            string childcom = "childcomment" + item.CommentID;
+                        }
+                        <div hidden id="@childcom" style="position:relative">
+                        <a href="javascript:void(0)" id="reply" class="glyphicon glyphicon-remove" style="float:right;" onclick="hide(@item.CommentID)"></a>
                         @using (Html.BeginForm("Comment", "Post", FormMethod.Post))
                         {
                         @Html.HiddenFor(model => model.PostID)
+                        <input type="hidden" value="@item.CommentID" name="ParentID">
 
                         <div class="form-group">
                         @if (String.IsNullOrEmpty(User.Identity.Name))
                         {
 
-                            <div class="input-group">
+                            <div class="input-group" style="width:85%">
                                 <input type="text" name="Commentedby" placeholder="Click to select role" id="commentedby" class="form-control" aria-label="...">
                                 <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Comment as</button>
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">Comment as</button>
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li><a href="javascript:void(0)" id="with_ano" onclick="with_anonymous()">Anonymous</a></li>
                                         <li role="separator" class="divider"></li>
@@ -133,7 +138,7 @@
                             <input type="hidden" name="CommentIsApproved" value="0" id="CommentIsApproved" class="form-control" aria-label="...">
 
                         }
-
+                            <br/>
                             <textarea name="Content" id="editor1" class="form-control" placeholder="Write your comment here"></textarea>
                             <br/>
                             <input type="submit" value="Comment" class="btn btn-default" />
@@ -141,8 +146,26 @@
                         }
                     </div>
                     </div>
+                    <br />
                  <br />
                 </div>
+
+                @*checking comments*@
+                @foreach (var com in Model.CommentsChild)
+                { 
+                @if (com.ParentID != item.CommentID)
+                    { 
+                    <div style="margin-left:15%;"><font size="5">@Html.Raw(item.CommentedBy + "&nbsp&nbsp&nbsp&nbsp&nbsp") </font> <i class="fa fa-fw glyphicon glyphicon-time"></i>@Html.Raw("&nbsp" + tt)</div>
+                    <br/>
+                    <div style="width:85%;float:right;">
+                    <div class="well">
+                        @Html.Raw(item.Content)
+                    </div>
+                    </div>
+                    <br />
+                 <br />                
+                    }
+                 }
         }
         </div>
         <br />
@@ -154,49 +177,49 @@
         @*Comment*@
         <div style="margin-left: 14%;margin-right:10%;">
             @using (Html.BeginForm("Comment", "Post", FormMethod.Post))
-        {
+            {
             @Html.HiddenFor(model => model.PostID)
-
+            <input type="hidden" value="0" name="ParentID">
             <div class="form-group">
                 @if (String.IsNullOrEmpty(User.Identity.Name))
-            {
+                {
 
-                <div class="input-group">
-                    <input type="text" name="Commentedby" placeholder="Click to select role" id="commentedby" class="form-control" aria-label="...">
-                    <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Comment as</button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="javascript:void(0)" id="with_ano" onclick="with_anonymous()">Anonymous</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="javascript:void(0)" onclick="with_email()">Email User</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a asp-page="/Account/Login">User</a></li>
-                        </ul>
+                    <div class="input-group">
+                        <input type="text" name="Commentedby" placeholder="Click to select role" id="commentedby" class="form-control" aria-label="...">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Comment as</button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a href="javascript:void(0)" id="with_ano" onclick="with_anonymous()">Anonymous</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="javascript:void(0)" onclick="with_email()">Email User</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a asp-page="/Account/Login">User</a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <input type="hidden" name="CommentIsApproved" value="0" id="CommentIsApproved" class="form-control" aria-label="...">
-                <br />
-                <br />
+                    <input type="hidden" name="CommentIsApproved" value="0" id="CommentIsApproved" class="form-control" aria-label="...">
                     <br />
-            }
-            else if (User.Identity.Name.Equals(Model.Author))
-            {
-                <input type="hidden" name="Commentedby" value="@User.Identity.Name" id="commentedby" class="form-control" aria-label="...">
-                <input type="hidden" name="CommentIsApproved" value="1" id="CommentIsApproved" class="form-control" aria-label="...">
+                    <br />
+                        <br />
+                }
+                else if (User.Identity.Name.Equals(Model.Author))
+                {
+                    <input type="hidden" name="Commentedby" value="@User.Identity.Name" id="commentedby" class="form-control" aria-label="...">
+                    <input type="hidden" name="CommentIsApproved" value="1" id="CommentIsApproved" class="form-control" aria-label="...">
 
-            }
-            else
-            {
-                <input type="hidden" name="Commentedby" value="@User.Identity.Name" id="commentedby" class="form-control" aria-label="...">
-                <input type="hidden" name="CommentIsApproved" value="0" id="CommentIsApproved" class="form-control" aria-label="...">
+                }
+                else
+                {
+                    <input type="hidden" name="Commentedby" value="@User.Identity.Name" id="commentedby" class="form-control" aria-label="...">
+                    <input type="hidden" name="CommentIsApproved" value="0" id="CommentIsApproved" class="form-control" aria-label="...">
 
-            }
+                }
 
-                <textarea name="Content" id="editor1" class="form-control" placeholder="Write your comment here"></textarea>
-                <br/>
-                <input type="submit" value="Comment" class="btn btn-default" />
-            </div>
-            }
+                    <textarea name="Content" id="editor1" class="form-control" placeholder="Write your comment here"></textarea>
+                    <br/>
+                    <input type="submit" value="Comment" class="btn btn-default" />
+                </div>
+                }
         </div>
 
         @*Releated Posts*@
@@ -260,22 +283,30 @@
             $(this).attr('src', '@Url.Content("~/Imagefiles/imgnotfound.png")');
         });
 
-        document.getElementById("with_ano").addEventListener('click', with_anonymous());
+            document.getElementById("with_ano").addEventListener('click', with_anonymous());
+
         function with_anonymous() {
             $('#commentedby').val("Anonymous");
             $('#commentedby').attr("readonly", true);
+            }
 
-        }
         function with_email() {
             $('#commentedby').removeAttr("readonly");
             $('#commentedby').val("");
             $('#commentedby').attr("Placeholder","Enter Your email address");
-
-            }
-        function show() {
-            $('#childcomment').removeAttr("hidden");
             }
 
+        function show(item) {
+            var divname = "#childcomment".concat(item);
+            $(divname).removeAttr("hidden");
+            $(divname).show();
+            }
+
+        function hide(item) {
+            var divname = "#childcomment".concat(item);
+            $(divname).hide();
+            $(divname).attr("hidden");
+            }
 
         </script>
 

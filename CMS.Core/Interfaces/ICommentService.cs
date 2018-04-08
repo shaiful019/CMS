@@ -13,6 +13,7 @@ namespace CMS.Core.Interfaces
         IEnumerable<CommentViewModel> GetCommentByPost(int postID);
         IEnumerable<CommentViewModel> GetCommentByAuthor(string User);
         IEnumerable<CommentViewModel> CommentsToApprove(string User);
+        IEnumerable<CommentViewModel> GetChildComment();
 
     }
 }

@@ -132,7 +132,8 @@ namespace CMS.Web.Controllers
                 Content = postVM.Content,
                 CommentTime = DateTime.Now,
                 IsApproved=postVM.CommentIsApproved,
-                CommentedBy=postVM.Commentedby
+                CommentedBy=postVM.Commentedby,
+                ParentID = postVM.ParentID
             };
 
             commentService.Create(commentVM);
@@ -143,6 +144,7 @@ namespace CMS.Web.Controllers
         {
             var post = postService.GetPostByID(id);
             post.Comments = commentService.GetCommentByPost(id);
+            post.CommentsChild = commentService.GetChildComment();
             post.Posts = postService.GetAllPost();
             post.Terms = postService.GetTermByPost(id);
             if (String.IsNullOrEmpty(User.Identity.Name) || !User.Identity.Name.Equals(post.Author))

@@ -16,5 +16,6 @@ namespace CMS.Domain.ViewModels
         public DateTime CommentTime { get; set; }
         public string CommentedBy { get; set; }
         public int IsApproved { get; set; }
+        public int ParentID { get; set; }
     }
 }
