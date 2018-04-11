@@ -29,20 +29,9 @@ namespace CMS.Web.Controllers
             termService = _termService;
 
         }
-
-        //public ActionResult Index()
-        //{
-            
-        //    var item = postService.GetAllPost();
-        //    return View(item);
-
-        //}
-
+        
         public ActionResult Index(string searchcontent)
         {
-
-            try
-            {
                 if (String.IsNullOrEmpty(searchcontent))
                 {
                     var item = postService.GetAllPost();
@@ -54,11 +43,6 @@ namespace CMS.Web.Controllers
                     ViewBag.searchcontent = searchcontent;
                     return View(item);
                 }
-            }
-            catch (Exception e)
-            {
-                return View();
-            }
 
             
         }
@@ -172,7 +156,8 @@ namespace CMS.Web.Controllers
         }
         public ActionResult ApproveComment()
         {
-            return View();
+            var comment = commentService.CommentsToApprove(User.Identity.Name);
+            return View(comment);
         }
         public ActionResult Search(string s)
         {
@@ -196,6 +181,16 @@ namespace CMS.Web.Controllers
             }
             return View(post);
 
+        }
+        public ActionResult Approve()
+        {
+            var comment = commentService.CommentsToApprove(User.Identity.Name);
+            return View(comment);
+        }
+        public ActionResult Reject()
+        {
+            var comment = commentService.CommentsToApprove(User.Identity.Name);
+            return View(comment);
         }
     }
 }

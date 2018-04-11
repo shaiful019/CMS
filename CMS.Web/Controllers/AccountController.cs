@@ -29,5 +29,13 @@ namespace CMS.Web.Controllers
             _logger.LogInformation("User logged out.");
             return RedirectToAction("Index","Post");
         }
+
+        public ActionResult Profile()
+        {
+
+            return View();
+
+
+        }
     }
 }

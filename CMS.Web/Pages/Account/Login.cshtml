@@ -4,12 +4,11 @@
 @{
     ViewData["Title"] = "Log in";
 }
-
-<h2>@ViewData["Title"]</h2>
-
+<div style="width:20%;margin-top:8%;margin-left:40%;margin-right:40%;">
+<h2 align="center">@ViewData["Title"]</h2>
+    <br />
+    <br />
             <form method="post">
-                <h4>Use a local account to log in.</h4>
-                <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Input.Name"></label>
@@ -41,7 +40,7 @@
                     </p>
                 </div>
             </form>
-
+    </div>
 
 @section Scripts {
     @await  Html.PartialAsync("_ValidationScriptsPartial")

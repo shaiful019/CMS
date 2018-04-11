@@ -19,7 +19,7 @@ namespace CMS.Core.Services
         public IEnumerable<CommentViewModel> GetChildComment()
         {
             var data = (from s in _unitOfWork.CommentRepository.Get()
-                        where s.ParentID == 0 
+                        where s.ParentID != 0 && s.IsApproved == 1
                         select new CommentViewModel
                         {
                             CommentID = s.CommentID,
@@ -71,7 +71,7 @@ namespace CMS.Core.Services
         public IEnumerable<CommentViewModel> GetCommentByAuthor(string User)
         {
             var data = (from s in _unitOfWork.CommentRepository.Get()
-                         where s.CommentedBy == User
+                         where s.CommentedBy == User && s.IsApproved == 1
                          select new CommentViewModel
                          {
                              CommentID = s.CommentID,
@@ -86,7 +86,7 @@ namespace CMS.Core.Services
         public IEnumerable<CommentViewModel> GetCommentByPost(int postID)
         {
             var data = (from s in _unitOfWork.CommentRepository.Get()
-                        where s.PostID == postID && s.ParentID ==0
+                        where s.PostID == postID && s.ParentID ==0 && s.IsApproved == 1
                         select new CommentViewModel
                         {
                             CommentID = s.CommentID,

@@ -70,6 +70,7 @@
         <div style="margin-left: 14%; margin-right:14%">
         @foreach (var item in Model.Comments)
         {
+            
             int a = (int)DateTime.Now.Subtract(item.CommentTime).TotalSeconds;
             string tt = null;
             if (a < 60)
@@ -88,17 +89,20 @@
             {
                 tt = a / 86400 + " day ago";
             }
+
             <div style="margin-left:5%;"><font size="5">@Html.Raw(item.CommentedBy + "&nbsp&nbsp&nbsp&nbsp&nbsp") </font> <i class="fa fa-fw glyphicon glyphicon-time"></i>@Html.Raw("&nbsp" + tt)</div>
                 <br/>
                 <div style="width:95%;float:right;">
                     <div class="well">
                         @Html.Raw(item.Content)
+                        <br />
                         <div style="width:5%;margin-bottom:0px;float:right;"><a href="javascript:void(0)" id="reply" class="glyphicon glyphicon-share-alt" onclick="show(@item.CommentID)"></a></div>
                         <br/>
-                        <br/>
+                        
                         @*Commentsofcomment*@
                         @{
                             string childcom = "childcomment" + item.CommentID;
+                            string commentedby = "commentedby" + item.CommentID;
                         }
                         <div hidden id="@childcom" style="position:relative">
                         <a href="javascript:void(0)" id="reply" class="glyphicon glyphicon-remove" style="float:right;" onclick="hide(@item.CommentID)"></a>
@@ -112,13 +116,13 @@
                         {
 
                             <div class="input-group" style="width:85%">
-                                <input type="text" name="Commentedby" placeholder="Click to select role" id="commentedby" class="form-control" aria-label="...">
+                                <input type="text" name="Commentedby" placeholder="Click to select role" id="@commentedby" class="form-control" aria-label="...">
                                 <div class="input-group-btn">
                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">Comment as</button>
                                     <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="javascript:void(0)" id="with_ano" onclick="with_anonymous()">Anonymous</a></li>
+                                        <li><a href="javascript:void(0)" onclick="with_ano(@item.CommentID)">Anonymous</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="javascript:void(0)" onclick="with_email()">Email User</a></li>
+                                        <li><a href="javascript:void(0)" onclick="with_em(@item.CommentID)">Email User</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li><a asp-page="/Account/Login">User</a></li>
                                     </ul>
@@ -152,19 +156,38 @@
 
                 @*checking comments*@
                 @foreach (var com in Model.CommentsChild)
-                { 
-                @if (com.ParentID != item.CommentID)
-                    { 
-                    <div style="margin-left:15%;"><font size="5">@Html.Raw(item.CommentedBy + "&nbsp&nbsp&nbsp&nbsp&nbsp") </font> <i class="fa fa-fw glyphicon glyphicon-time"></i>@Html.Raw("&nbsp" + tt)</div>
-                    <br/>
+                {
+                    int b = (int)DateTime.Now.Subtract(com.CommentTime).TotalSeconds;
+                    string ttt = null;
+                    if (b < 60)
+                    {
+                        ttt = " less than a minute ago";
+                    }
+                    else if (b < 3600)
+                    {
+                        ttt = b / 60 + " minute ago";
+                    }
+                    else if (b < 86400)
+                    {
+                        ttt = b / 3600 + " hour ago";
+                    }
+                    else
+                    {
+                        ttt = b / 86400 + " day ago";
+                    }
+                    if (com.ParentID == item.CommentID)
+                    {
+                    <div style="margin-left:15%;"><font size="5">@Html.Raw(com.CommentedBy + "&nbsp&nbsp&nbsp&nbsp&nbsp") </font> <i class="fa fa-fw glyphicon glyphicon-time"></i>@Html.Raw("&nbsp" + ttt)</div>
+                    
                     <div style="width:85%;float:right;">
                     <div class="well">
-                        @Html.Raw(item.Content)
+                        @Html.Raw(com.Content)
                     </div>
                     </div>
                     <br />
-                 <br />                
+                    <br />
                     }
+
                  }
         }
         </div>
@@ -259,7 +282,7 @@
                             <div class="col-xs-4"><a asp-action="Postview" asp-route-id="@item.PostID"><img src="@Url.Content(item.FeaturedImageUrl)" class="img-thumbnail" />@item.Title</a></div>
                             }
 
-                                        </div>
+                            </div>
                                 i++;
                             }
 
@@ -283,7 +306,7 @@
             $(this).attr('src', '@Url.Content("~/Imagefiles/imgnotfound.png")');
         });
 
-            document.getElementById("with_ano").addEventListener('click', with_anonymous());
+           
 
         function with_anonymous() {
             $('#commentedby').val("Anonymous");
@@ -294,6 +317,19 @@
             $('#commentedby').removeAttr("readonly");
             $('#commentedby').val("");
             $('#commentedby').attr("Placeholder","Enter Your email address");
+            }
+
+            function with_ano(item) {
+            var inputname = "#commentedby".concat(item);
+            $(inputname).val("Anonymous");
+            $(inputname).attr("readonly", true);
+            }
+
+            function with_em(item) {
+            var inputname="#commentedby".concat(item);
+            $(inputname).removeAttr("readonly");
+            $(inputname).val("");
+            $(inputname).attr("Placeholder", "Enter Your email address");
             }
 
         function show(item) {
