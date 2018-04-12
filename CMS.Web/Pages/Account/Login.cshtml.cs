@@ -71,6 +71,7 @@ namespace CMS.Web.Pages.Account
             {
 
                 var result = await _signInManager.PasswordSignInAsync(Input.Name, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");

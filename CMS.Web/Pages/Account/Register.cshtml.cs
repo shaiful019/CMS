@@ -18,18 +18,21 @@ namespace CMS.Web.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-        }
+            _roleManager = roleManager;
+         }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -70,8 +73,24 @@ namespace CMS.Web.Pages.Account
             ReturnUrl = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Name, Email = Input.Email };
+                
+                bool adminRoleExists = await _roleManager.RoleExistsAsync("Admin");
+                if (!adminRoleExists)
+                {
+                    _logger.LogInformation("Adding Admin role");
+                    await _roleManager.CreateAsync(new IdentityRole("Admin"));
+                }
+
+                bool userRoleExists = await _roleManager.RoleExistsAsync("User");
+                if (!userRoleExists)
+                {
+                    _logger.LogInformation("Adding User role");
+                    await _roleManager.CreateAsync(new IdentityRole("User"));
+                }
+
+                var user = new ApplicationUser { UserName = Input.Name, Email = Input.Email ,IsActive=1};
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -79,7 +98,7 @@ namespace CMS.Web.Pages.Account
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(Input.Email, callbackUrl);
-
+                    await _userManager.AddToRoleAsync(user, "User");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(Url.GetLocalUrl(returnUrl));
                 }

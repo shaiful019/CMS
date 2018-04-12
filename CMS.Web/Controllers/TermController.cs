@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CMS.Web.Controllers
 {
-    //[Authorize]
+    [Authorize(Roles ="Admin")]
     public class TermController : Controller
     {
 
