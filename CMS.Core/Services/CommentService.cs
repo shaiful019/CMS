@@ -65,6 +65,7 @@ namespace CMS.Core.Services
             };
             _unitOfWork.CommentRepository.Insert(comment);
             _unitOfWork.Save();
+            
             return comment;
         }
 

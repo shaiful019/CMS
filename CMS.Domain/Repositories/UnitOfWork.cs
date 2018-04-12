@@ -81,6 +81,19 @@ namespace CMS.Domain.Repositories
             }
         }
 
-        
+        private IRepository<Notification> NotificationRepo;
+        public IRepository<Notification> NotificationRepository
+        {
+            get
+            {
+                if (this.NotificationRepo == null)
+                {
+                    this.NotificationRepo = new Repository<Notification>(_db);
+                }
+                return NotificationRepo;
+            }
+        }
+
+
     }
 }

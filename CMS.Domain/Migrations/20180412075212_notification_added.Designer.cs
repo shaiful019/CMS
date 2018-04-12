@@ -11,9 +11,10 @@ using System;
 namespace CMS.Domain.Migrations
 {
     [DbContext(typeof(CMSContext))]
-    partial class CMSContextModelSnapshot : ModelSnapshot
+    [Migration("20180412075212_notification_added")]
+    partial class notification_added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,8 +49,6 @@ namespace CMS.Domain.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("CommentID");
-
-                    b.Property<DateTime>("Notificationtime");
 
                     b.Property<int>("PostID");
 

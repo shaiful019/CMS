@@ -33,13 +33,11 @@ namespace CMS.Core.Services
                 Author = postVM.Author,
                 ModifiedBy = postVM.ModifiedBy,
                 ModifiedDate = postVM.ModifiedDate,
-                IsDeleted = 0
-                
+                IsDeleted = 0    
             };
             
             post.PostTerms = new List<PostTerm>();
-
-
+            
             foreach (int termID in posttermVM.TermID)
             {
                 post.PostTerms.Add(new PostTerm
@@ -47,8 +45,7 @@ namespace CMS.Core.Services
                     TermID = termID
                 });
             }
-
-
+            
             post.PostViewStatus = new PostStatus
             {
                 ViewCount = 0

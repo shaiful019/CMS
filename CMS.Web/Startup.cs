@@ -50,9 +50,10 @@ namespace CMS.Web
             services.AddTransient<UnitOfWork>();
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<ICommentService, CommentService>();
+            services.AddTransient<ITermService, TermService>();
+            services.AddTransient<INotificationService, NotificationService>();
 
             //for uploading image
-            services.AddTransient<ITermService, TermService>();
             services.AddSingleton<IFileProvider>(
                new PhysicalFileProvider(
                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));

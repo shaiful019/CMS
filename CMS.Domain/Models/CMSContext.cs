@@ -20,7 +20,8 @@ namespace CMS.Domain.Models
         public DbSet<Term> Term { get; set; }
         public DbSet<PostTerm> PostTerm { get; set; }
         public DbSet<PostStatus> PostStatus { get; set; }
-        
+        public DbSet<Notification> Notification { get; set; }
+
 
     }
 }

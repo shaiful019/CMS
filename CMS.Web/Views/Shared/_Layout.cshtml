@@ -141,20 +141,13 @@
                     </a>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <div class="dropdown-menu" aria-labelledby="alertsDropdown">
+                        <div class="dropdown-menu" aria-labelledby="alertsDropdown" id="">
                             <h6 class="dropdown-header">New Alerts:</h6>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">
-                                <span class="text-success">
-                                    <strong>
-                                        <i class="fa fa-long-arrow-up fa-fw"></i>Status Update
-                                    </strong>
-                                </span>
-                                <span class="small float-right text-muted">11:21 AM</span>
-                                <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item small" href="#">View all alerts</a>
+                            
+                            <div class='dropdown-item' id="alert">
+
+                            </div>
                         </div>
                     }
                     else
@@ -196,6 +189,45 @@
                     <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
                     <!-- Custom scripts for all pages-->
                     <script src="~/js/sb-admin.min.js"></script>
+                    <script>
+                        $(document).ready(function () {
+                            $.ajax({
+                                type: "GET",
+                                url: "/Post/GetAllNotification",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (data) {
+                                    //alert(JSON.stringify(data));
+                                    $("#DIV").html('');
+                                    var DIV = '';
+                                    $.each(data, function (i, item) {
+                                        if (item.commentID == 0) {
+                                            var rows = "<a href=post/postview/" + item.postID +"><span class='text-success'>" + item.userID + " has commented on your post </span>" +
+                                                "<span class='small float-right text-muted'>" + item.notificationtime + "</span>" +
+                                                "</a><div class='dropdown-divider'></div>";
+                                            $('#alert').append(rows);
+                                        }
+                                        else
+                                        { 
+                                            var rows = "<a href=post/postview/" + item.postID + "><span class='text-success'>" + item.userID + " has replied on your comment </span>" +
+                                                "<span class='small float-right text-muted'>" + item.notificationtime + "</span>" +
+                                                "</a><div class='dropdown-divider'></div>";
+                                            $('#alert').append(rows);
+                                        }
+                                    }); //End of foreach Loop
+                                    console.log(data);
+                                }, //End of AJAX Success function
+
+                                failure: function (data) {
+                                    alert(data.responseText);
+                                }, //End of AJAX failure function
+                                error: function (data) {
+                                    alert(data.responseText);
+                                } //End of AJAX error function
+
+                            });
+                        });
+                    </script>
                 </div>
             </div>
         </div>

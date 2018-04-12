@@ -21,13 +21,14 @@ namespace CMS.Web.Controllers
         private IPostService postService;
         private ICommentService commentService;
         private ITermService termService;
+        private INotificationService notificationService;
         
-        public PostController(IPostService _postService, ICommentService _commentService, ITermService _termService)
+        public PostController(IPostService _postService, ICommentService _commentService, ITermService _termService, INotificationService _notificationService)
         {
             postService = _postService;
             commentService = _commentService;
             termService = _termService;
-
+            notificationService = _notificationService;
         }
         
         public ActionResult Index(string searchcontent)
@@ -121,7 +122,7 @@ namespace CMS.Web.Controllers
             };
 
             commentService.Create(commentVM);
-
+            notificationService.create(commentVM);
             return RedirectToAction(nameof(Postview), new { id = postVM.PostID.ToString() });
         }
         public ActionResult Postview(int id)
@@ -187,10 +188,18 @@ namespace CMS.Web.Controllers
             var comment = commentService.CommentsToApprove(User.Identity.Name);
             return View(comment);
         }
+
         public ActionResult Reject()
         {
             var comment = commentService.CommentsToApprove(User.Identity.Name);
             return View(comment);
+        }
+
+        
+        public JsonResult GetAllNotification()
+        {
+            var notification = notificationService.GetNotification(User.Identity.Name);
+            return Json(notification);
         }
     }
 }
