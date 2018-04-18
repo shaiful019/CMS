@@ -136,7 +136,9 @@
                             <span class="badge badge-pill badge-warning">6 New</span>
                         </span>
                         <span class="indicator text-warning d-none d-lg-block">
-                            1
+                            <div id="NotificationCounter">
+                               
+                            </div>
                         </span>
                     </a>
                     @if (User.Identity.IsAuthenticated)
@@ -197,33 +199,58 @@
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function (data) {
-                                    //alert(JSON.stringify(data));
+
                                     $("#DIV").html('');
                                     var DIV = '';
                                     $.each(data, function (i, item) {
                                         if (item.commentID == 0) {
-                                            var rows = "<a href=post/postview/" + item.postID +"><span class='text-success'>" + item.userID + " has commented on your post </span>" +
+                                            var rows = "<a href=post/postview/" + item.postID + "><span class='text-success'>" + item.userID + " has commented on your post </span>" +
                                                 "<span class='small float-right text-muted'>" + item.notificationtime + "</span>" +
                                                 "</a><div class='dropdown-divider'></div>";
                                             $('#alert').append(rows);
                                         }
-                                        else
-                                        { 
+                                        else {
                                             var rows = "<a href=post/postview/" + item.postID + "><span class='text-success'>" + item.userID + " has replied on your comment </span>" +
                                                 "<span class='small float-right text-muted'>" + item.notificationtime + "</span>" +
                                                 "</a><div class='dropdown-divider'></div>";
                                             $('#alert').append(rows);
                                         }
-                                    }); //End of foreach Loop
+                                    });
                                     console.log(data);
-                                }, //End of AJAX Success function
+                                },
 
                                 failure: function (data) {
                                     alert(data.responseText);
-                                }, //End of AJAX failure function
+                                },
                                 error: function (data) {
                                     alert(data.responseText);
-                                } //End of AJAX error function
+                                }
+
+                            });
+                        });
+                    </script>
+
+                    <script>
+                        $(document).ready(function () {
+                            $.ajax({
+                                type: "GET",
+                                url: "/Post/NotificationCount",
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (data) {
+
+                                    $("#DIV").html('');
+                                    var DIV = '';
+                                    $('#NotificationCounter').append(data);
+                                    console.log(data);
+                                },
+
+                                failure: function (data) {
+                                    alert(data.responseText);
+                                },
+                                error: function (data) {
+                                    alert(data.responseText);
+                                }
 
                             });
                         });

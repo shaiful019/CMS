@@ -10,6 +10,7 @@ namespace CMS.Core.Interfaces
     public interface INotificationService
     {
         Notification create(CommentViewModel CommentVM);
+        int NotificationCount(string User);
         IEnumerable<NotificationViewModel> GetNotification(string User);
     }
 }

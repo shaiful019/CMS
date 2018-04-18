@@ -109,6 +109,7 @@
                         @using (Html.BeginForm("Comment", "Post", FormMethod.Post))
                         {
                         @Html.HiddenFor(model => model.PostID)
+                        @Html.HiddenFor(model => model.Author)
                         <input type="hidden" value="@item.CommentID" name="ParentID">
 
                         <div class="form-group">
@@ -202,6 +203,7 @@
             @using (Html.BeginForm("Comment", "Post", FormMethod.Post))
             {
             @Html.HiddenFor(model => model.PostID)
+            @Html.HiddenFor(model => model.Author)
             <input type="hidden" value="0" name="ParentID">
             <div class="form-group">
                 @if (String.IsNullOrEmpty(User.Identity.Name))

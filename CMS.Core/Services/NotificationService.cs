@@ -22,6 +22,7 @@ namespace CMS.Core.Services
 
         public Notification create(CommentViewModel CommentVM)
         {
+
             var notification = new Notification()
             {
              CommentID = CommentVM.ParentID,
@@ -53,6 +54,24 @@ namespace CMS.Core.Services
 
                         }).AsEnumerable();
             return data;
+        }
+
+        public int NotificationCount(string User)
+        {
+            int a = (from p in _unitOfWork.PostRepository.Get()
+                     join n in _unitOfWork.NotificationRepository.Get() on p.PostID equals n.PostID
+                     join c in _unitOfWork.CommentRepository.Get() on n.CommentID equals c.CommentID into comm
+                     from x in comm.DefaultIfEmpty()
+                     where (p.Author == User || x.CommentedBy == User) && n.Status == 0
+                     select new NotificationViewModel
+                     {
+                         CommentID = n.CommentID,
+                         Notificationtime = n.Notificationtime,
+                         PostID = n.PostID,
+                         UserID = n.UserID
+
+                     }).Count();
+            return a;
         }
     }
 }

@@ -122,7 +122,11 @@ namespace CMS.Web.Controllers
             };
 
             commentService.Create(commentVM);
-            notificationService.create(commentVM);
+            if (!User.Identity.Name.Equals(postVM.Author))
+            {
+                notificationService.create(commentVM);
+            }
+            
             return RedirectToAction(nameof(Postview), new { id = postVM.PostID.ToString() });
         }
         public ActionResult Postview(int id)
@@ -199,6 +203,12 @@ namespace CMS.Web.Controllers
         public JsonResult GetAllNotification()
         {
             var notification = notificationService.GetNotification(User.Identity.Name);
+            return Json(notification);
+        }
+
+        public JsonResult NotificationCount()
+        {
+            var notification = notificationService.NotificationCount(User.Identity.Name);
             return Json(notification);
         }
     }

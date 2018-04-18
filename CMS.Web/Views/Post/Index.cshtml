@@ -124,14 +124,14 @@
                     @{
                         string x = post.Content;
 
-                        if (x != null && x.Length > 500)
+                        if (x != null && x.Length > 400)
                         {
-                            x = x.Substring(0, 500);
+                            x = x.Substring(0, 400);
                         }
                     }
 
-                    @Html.Raw(x)<b> . . .</b>
-                    <a asp-action="Postview" asp-route-id="@post.PostID"> View more</a>
+                    @Html.Raw(x)<b> . . .</b> <a asp-action="Postview" asp-route-id="@post.PostID">View more</a>
+
                     <br />
                     <br />
                     @foreach (var terms in @post.Terms)
