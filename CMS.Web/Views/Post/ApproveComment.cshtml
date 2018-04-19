@@ -44,7 +44,7 @@
                     @Html.DisplayFor(modelItem => item.CommentTime)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.CommentID">Approve</a> | <a asp-action="Edit" asp-route-id="@item.CommentID">Reject</a>
+                    <a asp-action="Approve" asp-route-id="@item.CommentID">Approve</a> | <a asp-action="Reject" asp-route-id="@item.CommentID">Reject</a>
                 </td>
             </tr>
         }

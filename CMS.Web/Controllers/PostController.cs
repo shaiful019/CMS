@@ -106,7 +106,7 @@ namespace CMS.Web.Controllers
 
             postService.Update(postVM);
 
-            return View("Index");
+            return RedirectToAction(nameof(Postview), new { id = postVM.PostID.ToString() }); ;
         }
         [HttpPost]
         public ActionResult Comment(PostViewModel postVM)
@@ -116,15 +116,18 @@ namespace CMS.Web.Controllers
                 PostID = postVM.PostID,
                 Content = postVM.Content,
                 CommentTime = DateTime.Now,
-                IsApproved=postVM.CommentIsApproved,
-                CommentedBy=postVM.Commentedby,
+                IsApproved = postVM.CommentIsApproved,
+                CommentedBy = postVM.Commentedby,
                 ParentID = postVM.ParentID
             };
 
             commentService.Create(commentVM);
-            if (!User.Identity.Name.Equals(postVM.Author))
+            if (!String.IsNullOrEmpty(User.Identity.Name))
             {
-                notificationService.create(commentVM);
+                if (!User.Identity.Name.Equals(postVM.Author))
+                {
+                    notificationService.create(commentVM);
+                }
             }
             
             return RedirectToAction(nameof(Postview), new { id = postVM.PostID.ToString() });
@@ -187,16 +190,18 @@ namespace CMS.Web.Controllers
             return View(post);
 
         }
-        public ActionResult Approve()
+        
+        public ActionResult Approve(int id)
         {
-            var comment = commentService.CommentsToApprove(User.Identity.Name);
-            return View(comment);
+            commentService.Accept(id);
+            return RedirectToAction(nameof(ApproveComment));
         }
 
-        public ActionResult Reject()
+        
+        public ActionResult Reject(int id)
         {
-            var comment = commentService.CommentsToApprove(User.Identity.Name);
-            return View(comment);
+            var comment = commentService.Reject(id);
+            return RedirectToAction(nameof(ApproveComment));
         }
 
         

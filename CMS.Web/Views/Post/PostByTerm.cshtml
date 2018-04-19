@@ -64,9 +64,9 @@
                     @{
                     string x = post.Content;
 
-                    if (x != null && x.Length > 500)
+                    if (x != null && x.Length > 400)
                     {
-                    x = x.Substring(0, 500);
+                    x = x.Substring(0, 400);
                     }
                     }
 
@@ -98,15 +98,6 @@
     </div>
     @section scripts {
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(".txt_truncate").each(function (i) {
-                var len = $(this).text().trim().length;
-                if (len > 200) {
-                    $(this).text($(this).text().substr(0, 200) + '...');
-                }
-            });
-        });
-    </script>
+
 
     }

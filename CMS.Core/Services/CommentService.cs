@@ -100,5 +100,28 @@ namespace CMS.Core.Services
 
             return data;
         }
+
+        public Comment Accept(int id)
+        {
+            var comment = _unitOfWork.CommentRepository.GetById(id);
+            comment.IsApproved = 1;
+
+            _unitOfWork.CommentRepository.Update(comment);
+            _unitOfWork.Save();
+            return comment;
+        }
+
+        public Comment Reject(int id)
+        {
+
+            var comment = _unitOfWork.CommentRepository.GetById(id);
+            comment.IsApproved = 2;
+
+            _unitOfWork.CommentRepository.Update(comment);
+            _unitOfWork.Save();
+            return comment;
+        }
+
+       
     }
 }
