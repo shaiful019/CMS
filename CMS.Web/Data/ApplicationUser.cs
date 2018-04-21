@@ -13,7 +13,24 @@ namespace CMS.Web.Data
     {
         [DefaultValue(null)]
         public byte[] ProfileImage { get; set; }
-
         public int IsActive { get; set; }
+        [DefaultValue(null)]
+        public string FbID { get; set; }
+        [DefaultValue(null)]
+        public string Gender { get; set; }
+        [DefaultValue(null)]
+        public string TwitterID { get; set; }
+        [DefaultValue(null)]
+        public string LinkedinID { get; set; }
+        [DefaultValue(null)]
+        public string InstagramID { get; set; }
+        [DefaultValue(null)]
+        public string YoutubeID { get; set; }
+        [DefaultValue(null)]
+        public string GithubID { get; set; }
+        [DefaultValue(null)]
+        public string FullName { get; set; }
+
+
     }
 }

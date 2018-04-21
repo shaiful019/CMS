@@ -42,7 +42,7 @@ namespace CMS.Web.Controllers
         {
 
             termService.Create(termVM);
-            
+            ViewBag.Message = "Term added succesfully";
 
             return View();
         }

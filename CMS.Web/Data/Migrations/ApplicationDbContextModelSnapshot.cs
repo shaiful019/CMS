@@ -35,7 +35,19 @@ namespace CMS.Web.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<string>("FbID");
+
+                    b.Property<string>("FullName");
+
+                    b.Property<string>("Gender");
+
+                    b.Property<string>("GithubID");
+
+                    b.Property<string>("InstagramID");
+
                     b.Property<int>("IsActive");
+
+                    b.Property<string>("LinkedinID");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -57,10 +69,14 @@ namespace CMS.Web.Data.Migrations
 
                     b.Property<string>("SecurityStamp");
 
+                    b.Property<string>("TwitterID");
+
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
+
+                    b.Property<string>("YoutubeID");
 
                     b.HasKey("Id");
 

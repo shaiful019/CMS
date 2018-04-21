@@ -64,7 +64,7 @@
                     }
                     <div style="text-align:justify;">
                         <h3>@Html.Raw(post.FeaturedPost.Title) </h3>
-                        by @Html.Raw(post.FeaturedPost.Author)
+                        by <a asp-controller="Account" asp-action="Profile" asp-route-id="@post.FeaturedPost.Author">@Html.Raw(post.FeaturedPost.Author)</a>
                         <br />
                         <br />
                         @Html.Raw(y)<b> . . .</b>
@@ -105,29 +105,30 @@
                     <br />
                     @if (String.IsNullOrEmpty(User.Identity.Name))
                     {
-                        <h4> <b>@post.Title </b></h4>
+                      <h4> <b>@post.Title </b></h4>
                     }
                     else if (User.Identity.Name.Equals(post.Author))
                     {
-                        <h4> <b>@post.Title <a asp-action="Edit" asp-route-id="@post.PostID"><span class="glyphicon glyphicon-edit" style="width:25%;"></span></a></b></h4>
+                      <h4> <b>@post.Title <a asp-action="Edit" asp-route-id="@post.PostID"><span class="glyphicon glyphicon-edit" ></span></a><a asp-action="Delete" asp-route-id="@post.PostID"><span class="glyphicon glyphicon-trash"></span></a></b></h4>
+                      
                     }
                     else
-                    { 
-                        <h4> <b>@post.Title </b></h4>
+                    {
+                      <h4> <b>@post.Title </b></h4>
                     }
 
                     <font size="2">
-                        <b><i>Created By</i></b> @post.Author &nbsp; @tt
+                        <b><i>Created By</i></b> <a asp-controller="Account" asp-action="Profile">@post.Author</a> &nbsp; @tt
                     </font>
                     <br />
                     <br />
                     @{
-                        string x = post.Content;
+        string x = post.Content;
 
-                        if (x != null && x.Length > 400)
-                        {
-                            x = x.Substring(0, 400);
-                        }
+        if (x != null && x.Length > 300)
+        {
+            x = x.Substring(0, 00);
+        }
                     }
 
                     @Html.Raw(x)<b> . . .</b> <a asp-action="Postview" asp-route-id="@post.PostID">View more</a>
@@ -135,18 +136,18 @@
                     <br />
                     <br />
                     @foreach (var terms in @post.Terms)
-                    {
+    {
 
-                        if (terms.Type.Equals("0"))
-                        {
-                            <a asp-action="PostByTerm" asp-route-id="@terms.TermID"><span class="label label-primary"> @terms.Content</span></a>
-                        }
-                        else
-                        {
-                            <a asp-action="PostByTerm" asp-route-id="@terms.TermID"><span class="label label-success"> @terms.Content</span></a>
-                        }
+        if (terms.Type.Equals("0"))
+        {
+                <a asp-action="PostByTerm" asp-route-id="@terms.TermID"><span class="label label-primary"> @terms.Content</span></a>
+}
+else
+{
+                <a asp-action="PostByTerm" asp-route-id="@terms.TermID"><span class="label label-success"> @terms.Content</span></a>
+}
 
-                    }
+}
                 </div>
             </div>
         </div>

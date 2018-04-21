@@ -90,6 +90,14 @@ namespace CMS.Web.Controllers
             };
             return RedirectToAction(nameof(Postview), new { id = post.PostID.ToString() });
         }
+        
+        public ActionResult Delete(int id)
+        {
+            var post = postService.GetPostByID(id);
+
+            postService.Delete(post);
+            return View();
+        }
 
         public ActionResult Edit(int id)
         {
@@ -137,8 +145,8 @@ namespace CMS.Web.Controllers
             var post = postService.GetPostByID(id);
             post.Comments = commentService.GetCommentByPost(id);
             post.CommentsChild = commentService.GetChildComment();
-            post.Posts = postService.GetAllPost();
             post.Terms = postService.GetTermByPost(id);
+            post.Posts = postService.GetReleatedPost(postService.GetTermByPost(id));
             if (String.IsNullOrEmpty(User.Identity.Name) || !User.Identity.Name.Equals(post.Author))
             {
                 postService.UpdatePostView(postService.GetPostView(id));
@@ -179,18 +187,24 @@ namespace CMS.Web.Controllers
         }
         public ActionResult LastPost()
         {
-            var post = postService.GetLastPost(User.Identity.Name);
-            post.Comments = commentService.GetCommentByPost(post.PostID);
-            post.Posts = postService.GetAllPost();
-            post.Terms = postService.GetTermByPost(post.PostID);
-            if (String.IsNullOrEmpty(User.Identity.Name) || !User.Identity.Name.Equals(post.Author))
+            PostViewModel post = new PostViewModel
             {
-                postService.UpdatePostView(postService.GetPostView(post.PostID));
-            }
+                Posts = postService.GetPostByAuthor(User.Identity.Name),
+                Comments = commentService.GetCommentByAuthor(User.Identity.Name),
+                CommentsApproval = commentService.CommentsToApprove(User.Identity.Name),
+                PostView = postService.GetPostViewbByAuthor(User.Identity.Name)
+            };
+
+            return View(post);
+        }
+
+        public ActionResult Rank()
+        {
+            var post = postService.GetRank();
             return View(post);
 
         }
-        
+
         public ActionResult Approve(int id)
         {
             commentService.Accept(id);

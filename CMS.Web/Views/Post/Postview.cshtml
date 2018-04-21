@@ -21,8 +21,8 @@
     }
 
     <h5>
-        by @Html.DisplayFor(model => model.Author) at @Html.DisplayFor(model => model.CreatedDate)
-    </h5>
+        by <a asp-controller="Account" asp-action="Profile">@Html.DisplayFor(model => model.Author)</a> at @Html.DisplayFor(model => model.CreatedDate)
+</h5>
     <hr />
 
     @if (String.IsNullOrEmpty(@Model.Url) && String.IsNullOrEmpty(@Model.FeaturedImageUrl))
@@ -90,7 +90,11 @@
                 tt = a / 86400 + " day ago";
             }
 
-            <div style="margin-left:5%;"><font size="5">@Html.Raw(item.CommentedBy + "&nbsp&nbsp&nbsp&nbsp&nbsp") </font> <i class="fa fa-fw glyphicon glyphicon-time"></i>@Html.Raw("&nbsp" + tt)</div>
+            <div style="margin-left:5%;"><font size="5">
+
+                <a asp-controller="Account" asp-action="Profile">@Html.Raw(item.CommentedBy)</a> @Html.Raw("&nbsp&nbsp&nbsp&nbsp&nbsp")
+                 
+                 </font> <i class="fa fa-fw glyphicon glyphicon-time"></i>@Html.Raw("&nbsp" + tt)</div>
                 <br/>
                 <div style="width:95%;float:right;">
                     <div class="well">
@@ -129,7 +133,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <input type="hidden" name="CommentIsApproved" value="0" id="CommentIsApproved" class="form-control" aria-label="...">
+                            <input type="hidden" name="CommentIsApproved" value="1" id="CommentIsApproved" class="form-control" aria-label="...">
                         }
                         else if (User.Identity.Name.Equals(Model.Author))
                         {
@@ -140,7 +144,7 @@
                         else
                         {
                             <input type="hidden" name="Commentedby" value="@User.Identity.Name" id="commentedby" class="form-control" aria-label="...">
-                            <input type="hidden" name="CommentIsApproved" value="0" id="CommentIsApproved" class="form-control" aria-label="...">
+                            <input type="hidden" name="CommentIsApproved" value="1" id="CommentIsApproved" class="form-control" aria-label="...">
 
                         }
                             <br/>
@@ -178,7 +182,7 @@
                     }
                     if (com.ParentID == item.CommentID)
                     {
-                    <div style="margin-left:15%;"><font size="5">@Html.Raw(com.CommentedBy + "&nbsp&nbsp&nbsp&nbsp&nbsp") </font> <i class="fa fa-fw glyphicon glyphicon-time"></i>@Html.Raw("&nbsp" + ttt)</div>
+                    <div style="margin-left:15%;"><font size="5"><a asp-controller="Account" asp-action="Profile">@Html.Raw(item.CommentedBy)</a> @Html.Raw("&nbsp&nbsp&nbsp&nbsp&nbsp")</font> <i class="fa fa-fw glyphicon glyphicon-time"></i>@Html.Raw("&nbsp" + ttt)</div>
                     
                     <div style="width:85%;float:right;">
                     <div class="well">
@@ -297,7 +301,9 @@
             <br />
             <br />
         </div>
-
+        <br />
+        <br />
+        <br />
 
         @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

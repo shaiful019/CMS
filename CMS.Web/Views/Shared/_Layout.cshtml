@@ -4,13 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>@ViewData["Title"] - CMS.Web</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>SB Admin - Start Bootstrap Template</title>
-    
+    <title>@ViewData["Title"]CMS.Web</title>
     <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    
     <link href="~/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">    
     <link href="~/css/sb-admin.css" rel="stylesheet">
 </head>
@@ -23,8 +18,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav navbar-sidenav" style="margin-top: 61px; position:fixed;height:880px" id="exampleAccordion">
-                <br /><br />
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Your ">
+                <br />
+                <br />
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Your Status">
                     <a class="nav-link" asp-controller="Post" asp-action="DashBoard">
                         <i class="fa fa-fw fa-dashboard"></i>
                         <span class="nav-link-text">Dashboard</span>
@@ -37,7 +33,7 @@
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Create post">
-                    <a class="nav-link"  asp-controller="Post" asp-action="Create">
+                    <a class="nav-link" asp-controller="Post" asp-action="Create">
                         <i class="fa fa-fw fa-file"></i>
                         <span class="nav-link-text">Create post</span>
                     </a>
@@ -48,61 +44,16 @@
                         <span class="nav-link-text">Comment Requests</span>
                     </a>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
-                        <i class="fa fa-fw fa-file"></i>
-                        <span class="nav-link-text">Example Pages</span>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+                    <a class="nav-link" asp-controller="Account" asp-action="Profile" asp-route-id="@User.Identity.Name">
+                        <i class="fa fa-fw glyphicon glyphicon-user"></i>
+                        <span class="nav-link-text">Profile</span>
                     </a>
-                    <ul class="sidenav-second-level collapse" id="collapseExamplePages">
-                        <li>
-                            <a href="login.html">Login Page</a>
-                        </li>
-                        <li>
-                            <a href="register.html">Registration Page</a>
-                        </li>
-                        <li>
-                            <a href="forgot-password.html">Forgot Password Page</a>
-                        </li>
-                        <li>
-                            <a href="blank.html">Blank Page</a>
-                        </li>
-                    </ul>
                 </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
-                        <i class="fa fa-fw fa-sitemap"></i>
-                        <span class="nav-link-text">Menu Levels</span>
-                    </a>
-                    <ul class="sidenav-second-level collapse" id="collapseMulti">
-                        <li>
-                            <a href="#">Second Level Item</a>
-                        </li>
-                        <li>
-                            <a href="#">Second Level Item</a>
-                        </li>
-                        <li>
-                            <a href="#">Second Level Item</a>
-                        </li>
-                        <li>
-                            <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
-                            <ul class="sidenav-third-level collapse" id="collapseMulti2">
-                                <li>
-                                    <a href="#">Third Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Third Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Third Level Item</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
-                    <a class="nav-link" href="#">
-                        <i class="fa fa-fw fa-link"></i>
-                        <span class="nav-link-text">Link</span>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+                    <a class="nav-link" asp-controller="Post" asp-action="Rank">
+                        <i class="fa fa-fw glyphicon glyphicon-tower"></i>
+                        <span class="nav-link-text">Rank</span>
                     </a>
                 </li>
             </ul>
@@ -147,7 +98,7 @@
                             <h6 class="dropdown-header">New Alerts:</h6>
                             <div class="dropdown-divider"></div>
                             
-                            <div class='dropdown-item' id="alert">
+                            <div class='dropdown-item' id="ale">
 
                             </div>
                         </div>
@@ -187,9 +138,9 @@
                     </footer>
                     <script src="~/vendor/jquery/jquery.min.js"></script>
                     <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-                    <!-- Core plugin JavaScript-->
+                    
                     <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
-                    <!-- Custom scripts for all pages-->
+                    
                     <script src="~/js/sb-admin.min.js"></script>
                     <script>
                         $(document).ready(function () {
@@ -207,13 +158,13 @@
                                             var rows = "<a href=post/postview/" + item.postID + "><span class='text-success'>" + item.userID + " has commented on your post </span>" +
                                                 "<span class='small float-right text-muted'>" + item.notificationtime + "</span>" +
                                                 "</a><div class='dropdown-divider'></div>";
-                                            $('#alert').append(rows);
+                                            $('#ale').append(rows);
                                         }
                                         else {
                                             var rows = "<a href=post/postview/" + item.postID + "><span class='text-success'>" + item.userID + " has replied on your comment </span>" +
                                                 "<span class='small float-right text-muted'>" + item.notificationtime + "</span>" +
                                                 "</a><div class='dropdown-divider'></div>";
-                                            $('#alert').append(rows);
+                                            $('#ale').append(rows);
                                         }
                                     });
                                     console.log(data);

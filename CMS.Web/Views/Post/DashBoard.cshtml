@@ -127,7 +127,7 @@
 
             @if (@User.Identity.Name.Equals(@post.Author))
             {
-                <h4> <b>@post.Title <a asp-action="Edit" asp-route-id="@post.PostID"><span class="glyphicon glyphicon-edit" style="width:25%;"></span></a></b></h4>
+                <h4> <b>@post.Title <a asp-action="Edit" asp-route-id="@post.PostID"><span class="glyphicon glyphicon-edit"></span></a><a asp-action="Delete" asp-route-id="@post.PostID"><span class="glyphicon glyphicon-trash"></span></a></b></h4>
             }
             else
             {

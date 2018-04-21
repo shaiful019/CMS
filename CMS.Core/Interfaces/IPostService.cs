@@ -11,6 +11,7 @@ namespace CMS.Core.Interfaces
     {
         Post Create(PostViewModel postVM, PostTermViewModel posttermVM, PostStatusViewModel poststatusVM);
         Post Update(PostViewModel postVM);
+        Post Delete(PostViewModel postVM);
         PostViewModel GetPostByID(int id);
         PostViewModel GetLastPost(string user);
         PostViewModel GetFeaturedPost();
@@ -19,6 +20,8 @@ namespace CMS.Core.Interfaces
         IEnumerable<PostViewModel> GetAllPost();
         IEnumerable<TermViewModel> GetTermByPost(int postID);
         IEnumerable<PostViewModel> Search(string content);
+        IEnumerable<PostViewModel> GetReleatedPost(IEnumerable<TermViewModel> Terms);
+        IEnumerable<PostViewModel> GetRank();
         PostStatus UpdatePostView(PostStatusViewModel postStatusVM);
         PostStatusViewModel GetPostView(int postID);
         IEnumerable<PostStatusViewModel> GetPostViewbByAuthor(string author);

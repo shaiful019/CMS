@@ -32,7 +32,7 @@ namespace CMS.Web.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
-         }
+        }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -43,8 +43,18 @@ namespace CMS.Web.Pages.Account
         {
             [Required]
             [DataType(DataType.Text)]
+            [Display(Name = "Name")]
+            public string FullName { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
             [Display(Name = "User Name")]
             public string Name { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Gender")]
+            public string Gender { get; set; }
 
             [Required]
             [EmailAddress]
@@ -73,7 +83,7 @@ namespace CMS.Web.Pages.Account
             ReturnUrl = returnUrl;
             if (ModelState.IsValid)
             {
-                
+
                 bool adminRoleExists = await _roleManager.RoleExistsAsync("Admin");
                 if (!adminRoleExists)
                 {
@@ -88,9 +98,9 @@ namespace CMS.Web.Pages.Account
                     await _roleManager.CreateAsync(new IdentityRole("User"));
                 }
 
-                var user = new ApplicationUser { UserName = Input.Name, Email = Input.Email ,IsActive=1};
+                var user = new ApplicationUser { UserName = Input.Name, Gender = Input.Gender, Email = Input.Email, IsActive = 1 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");

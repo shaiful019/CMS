@@ -14,11 +14,15 @@ namespace CMS.Web.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
+        private UserManager<ApplicationUser> _userManager;
+        private ApplicationDbContext _applicationDbContext;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager, ILogger<AccountController> logger)
+        public AccountController(SignInManager<ApplicationUser> signInManager, ILogger<AccountController> logger,UserManager<ApplicationUser> userManager,ApplicationDbContext applicationDbContext)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
+            _applicationDbContext = applicationDbContext;
         }
 
         [HttpPost]
@@ -30,12 +34,20 @@ namespace CMS.Web.Controllers
             return RedirectToAction("Index","Post");
         }
 
-        public ActionResult Profile()
+        public ActionResult Profile(string id)
         {
-
-            return View();
-
-
+            var currentuser = _applicationDbContext.Users.SingleOrDefault(m =>m.UserName.Equals(id));
+            var user = new ApplicationUser()
+            {
+                Email = currentuser.Email,
+                UserName = currentuser.UserName,
+                IsActive = currentuser.IsActive,
+                PhoneNumber = currentuser.PhoneNumber,
+                ProfileImage = currentuser.ProfileImage,
+                FbID = currentuser.FbID,
+                Gender = currentuser.Gender
+            };
+            return View(user);
         }
     }
 }

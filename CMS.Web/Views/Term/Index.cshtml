@@ -22,7 +22,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Content)
             </th>
-            <th></th>
+            <th>
+                Action
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -49,7 +51,7 @@
                     @Html.DisplayFor(modelItem => item.Content)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.TermID">Edit</a>
+                    <a asp-action="Edit" asp-route-id="@item.TermID">  <i class="glyphicon glyphicon-edit"></i></a>
                 </td>
             </tr>
         }

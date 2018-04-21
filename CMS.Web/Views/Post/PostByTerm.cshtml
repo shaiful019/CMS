@@ -57,8 +57,8 @@
                         <h4> <b>@post.Title <a asp-action="Edit" asp-route-id="@post.PostID"><span class="glyphicon glyphicon-edit" style="width:25%;"></span></a></b></h4>
                       }
                     <font size="2">
-                        <b><i>Created By</i></b> @post.Author &nbsp; @tt
-                    </font>
+                        <b><i>Created By</i></b> <a asp-controller="Account" asp-action="Profile">@post.Author</a> &nbsp; @tt
+</font>
                     <br />
                     <br />
                     @{

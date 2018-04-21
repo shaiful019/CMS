@@ -16,8 +16,8 @@
     }
 
     <h5>
-        by @Html.DisplayFor(model => model.Author) at @Html.DisplayFor(model => model.CreatedDate)
-    </h5>
+        by <a asp-controller="Account" asp-action="Profile">@Html.DisplayFor(model => model.Author)</a>at @Html.DisplayFor(model => model.CreatedDate)
+</h5>
     <hr />
     @if (String.IsNullOrEmpty(@Model.Url) && String.IsNullOrEmpty(@Model.FeaturedImageUrl))
     {
@@ -80,7 +80,7 @@
         {
             tt = a / 86400 + " day ago";
         }
-        <font size="5">@Html.Raw(item.CommentedBy + "&nbsp&nbsp&nbsp&nbsp&nbsp") </font> <i class="fa fa-fw glyphicon glyphicon-time"></i>@Html.Raw("&nbsp" + tt)
+        <font size="5">@Html.Raw("<a asp-controller='Account' asp-action='Profile'>" + item.CommentedBy + "</a>&nbsp&nbsp&nbsp&nbsp&nbsp") </font> <i class="fa fa-fw glyphicon glyphicon-time"></i>@Html.Raw("&nbsp" + tt)
         <br />
         <br />
         <div class="well">

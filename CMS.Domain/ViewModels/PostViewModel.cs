@@ -42,5 +42,10 @@ namespace CMS.Domain.ViewModels
         public PostViewModel FeaturedPost { get; set; }
         public IEnumerable<PostViewModel> Posts { get; set; }
         public IEnumerable<PostStatusViewModel> PostView { get; set; }
+
+        public int PostCount { get; set; }
+        public int ViewCount { get; set; }
+        public int CommentCount { get; set; }
+        public int Score { get; set; }
     }
 }

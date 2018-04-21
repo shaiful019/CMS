@@ -291,5 +291,48 @@ namespace CMS.Core.Services
 
             return data;
         }
+
+        public Post Delete(PostViewModel postVM)
+        {
+            var post = _unitOfWork.PostRepository.GetById(postVM.PostID);
+
+            post.IsDeleted = 1;
+
+
+            _unitOfWork.PostRepository.Update(post);
+            _unitOfWork.Save();
+
+            return post;
+        }
+
+        public IEnumerable<PostViewModel> GetReleatedPost(IEnumerable<TermViewModel> Terms)
+        {
+            var post = new List<PostViewModel>();
+            foreach (TermViewModel term in Terms)
+            {
+                post.AddRange(GetPostByTerm(term.TermID));
+            }
+
+            return post;
+        }
+
+        public IEnumerable<PostViewModel> GetRank()
+        {
+            var post = (from pr in _unitOfWork.PostRepository.Get()
+                       join ps in _unitOfWork.PostStatusRepository.Get() on pr.PostID equals ps.PostID
+                       join cr in _unitOfWork.CommentRepository.Get() on pr.PostID equals cr.PostID
+                       group pr.Author by new { pr.Author,pr.PostID,ps.ViewCount,cr.CommentID } into g
+                       select new PostViewModel
+                        {
+                            Author =g.Key.Author,
+                            ViewCount=g.Key.ViewCount,
+                            PostCount=g.Key.PostID,
+                            CommentCount=g.Key.CommentID
+
+                        }).AsEnumerable();
+
+
+            return post;
+        }
     }
 }

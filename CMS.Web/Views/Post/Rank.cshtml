@@ -1,0 +1,44 @@
+﻿@model IEnumerable<CMS.Domain.ViewModels.PostViewModel>
+@{
+    ViewData["Title"] = "Rank";
+}
+
+<h2>Rank</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ViewCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CommentCount)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input asp-for="@item.Author" type="text">
+                </td>
+                <td>
+                    <input asp-for="@item.PostCount" type="text">
+                </td>
+                <td>
+                    <input asp-for="@item.ViewCount" type="text">
+                </td>
+                <td>
+                    <input asp-for="@item.CommentCount" type="text">
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
